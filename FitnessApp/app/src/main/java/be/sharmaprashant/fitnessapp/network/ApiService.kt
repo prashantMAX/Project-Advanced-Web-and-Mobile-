@@ -1,12 +1,14 @@
 package be.sharmaprashant.fitnessapp.network
 
 import be.sharmaprashant.fitnessapp.data.UserProfile
+import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 
 
@@ -24,7 +26,8 @@ object RetrofitClient {
 
 interface ApiService {
     @POST("Login.php")
-    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+    @Headers("Content-Type: application/json")
+    suspend fun login(@Body request: LoginRequest): Response<JsonObject>
 
     @GET("GetUser.php")
     suspend fun getUserData(@Header("Authorization") token: String): Response<UserProfile>
@@ -32,9 +35,9 @@ interface ApiService {
 data class LoginResponse(
     val success: Boolean,
     val message: String?,
-    val token: String?,
-    val userProfile: UserProfile?
+    val token: String?
 )
+
 
 
 data class LoginRequest(

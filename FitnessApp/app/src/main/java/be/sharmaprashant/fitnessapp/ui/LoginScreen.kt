@@ -1,24 +1,21 @@
-package be.sharmaprashant.fitnessapp
+package be.sharmaprashant.fitnessapp.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import be.sharmaprashant.fitnessapp.network.ApiService
+import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.network.LoginRequest
 import be.sharmaprashant.fitnessapp.network.LoginResponse
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
+import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -53,24 +50,35 @@ fun LoginScreen(navController: NavHostController) {
                 .padding(vertical = 4.dp)
                 .fillMaxWidth(),
             label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
         )
         Button(
             onClick = {
                 scope.launch {
                     try {
                         val request = LoginRequest(username, password)
-                        val response: Response<LoginResponse> = RetrofitClient.apiService.login(request)
-                        if (response.isSuccessful) {
-                            loginResult = response.body()
-                            if (loginResult?.success == true) {
-                                navController.navigate("accountInfo")
-                            }
+                        val response: Response<JsonObject> = RetrofitClient.apiService.login(request)
+                        loginResult = if (response.isSuccessful) {
+                            val jsonResponse = response.body()
+                            val success = jsonResponse?.get("success")?.asBoolean ?: false
+                            val message = if (success) "Login successful" else "Login failed"
+                            val token = jsonResponse?.get("token")?.asString
+                            LoginResponse(success, message, token)
                         } else {
-                            // Handle unsuccessful login
+                            LoginResponse(false, "Error: ${response.code()}", null)
+                        }
+                        // If login is successful, navigate to "accountInfo" and pop back stack
+                        if (loginResult?.success == true) {
+                            navController.navigate("login") {
+                                // Pop the back stack up to the login destination
+                                popUpTo("login") { inclusive = true }
+                                // Navigate to the account info holder destination
+                                launchSingleTop = true
+                            }
+
                         }
                     } catch (e: Exception) {
-                        // Handle exceptions
+                        loginResult = LoginResponse(false, "Error: ${e.message}", null)
                     }
                 }
             },
@@ -80,14 +88,20 @@ fun LoginScreen(navController: NavHostController) {
         ) {
             Text("Login")
         }
-        loginResult?.let { result ->
-            if (result.success) {
-                Text("Login successful")
-            } else {
-                Text("Login failed: ${result.message ?: "Unknown error"}")
+        loginResult?.let {
+            if (!it.success) {
+                Text(it.message ?: "Login failed")
             }
         }
     }
 }
 
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    val navController = rememberNavController();
+        LoginScreen(navController)
+
+}
 
