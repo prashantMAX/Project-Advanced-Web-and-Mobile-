@@ -69,7 +69,7 @@ fun LoginScreen(navController: NavHostController) {
                         }
                         // If login is successful, navigate to "accountInfo" and pop back stack
                         if (loginResult?.success == true) {
-                            navController.navigate("login") {
+                            navController.navigate("accountInfo") {
                                 // Pop the back stack up to the login destination
                                 popUpTo("login") { inclusive = true }
                                 // Navigate to the account info holder destination
