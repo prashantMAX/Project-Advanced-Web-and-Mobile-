@@ -103,7 +103,6 @@ fun LoginScreen(navController: NavHostController) {
 @Composable
 fun GreetingPreview() {
     val navController = rememberNavController();
-        LoginScreen(navController)
+    LoginScreen(navController)
 
 }
-
