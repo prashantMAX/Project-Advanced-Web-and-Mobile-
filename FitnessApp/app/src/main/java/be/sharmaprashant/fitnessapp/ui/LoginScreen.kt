@@ -15,10 +15,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
-
+fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -45,7 +46,10 @@ fun LoginScreen(viewModel: LoginViewModel) {
             visualTransformation = PasswordVisualTransformation(),
         )
         Button(
-            onClick = {viewModel.login()},
+            onClick = {viewModel.login()
+                if (viewModel.loginResult?.success == true) {
+                navController.navigate("accountInfo")
+            }},
             modifier = Modifier
                 .padding(vertical = 16.dp)
                 .fillMaxWidth()
@@ -56,9 +60,6 @@ fun LoginScreen(viewModel: LoginViewModel) {
             if (!it.success) {
                 Text(it.message ?: "Login failed")
             }
-            else {
-                Text(it.message ?: "Login Successful")
-            }
         }
     }
 }
@@ -67,7 +68,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    val viewModel: LoginViewModel = viewModel()
-    LoginScreen( viewModel = viewModel)
+    val navController = rememberNavController()
+    LoginScreen(navController = navController)
 }
 
