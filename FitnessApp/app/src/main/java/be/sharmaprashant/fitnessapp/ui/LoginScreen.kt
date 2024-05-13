@@ -1,5 +1,6 @@
 package be.sharmaprashant.fitnessapp.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -97,6 +98,7 @@ fun LoginScreen(navController: NavHostController) {
 }
 
 
+@SuppressLint("SuspiciousIndentation")
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {

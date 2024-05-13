@@ -30,7 +30,7 @@ fun AccountInfoScreen() {
     val userProfile = remember {
         UserProfile(
             userID = 1,
-            name = "XXX",
+            name = "Johndoe",
             age = 30,
             weight = 80.5f,
             height = 180.0f,
