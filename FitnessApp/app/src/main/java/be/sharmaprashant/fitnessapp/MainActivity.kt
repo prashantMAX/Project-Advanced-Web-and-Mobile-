@@ -24,17 +24,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             FitnessAppTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    val navController: NavHostController = rememberNavController()
-                    NavHost(navController, startDestination = "login") {
-                        composable("login") {
-                            LoginScreen(navController = navController)
-                        }
-                        composable("accountInfo") {
-                            AccountInfoScreen()
-                        }
+                    FitnessApp()
                     }
                 }
             }
         }
-    }
 }

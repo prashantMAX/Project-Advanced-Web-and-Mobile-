@@ -6,24 +6,37 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import be.sharmaprashant.fitnessapp.data.LoginUIState
 import be.sharmaprashant.fitnessapp.network.LoginRequest
 import be.sharmaprashant.fitnessapp.network.LoginResponse
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import com.google.gson.JsonObject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
-    var username: MutableState<String> = mutableStateOf("")
-        private set
-    var password: MutableState<String> = mutableStateOf("")
-    var loginResult by mutableStateOf<LoginResponse?>(null)
+    private val _loginUIState = MutableStateFlow(LoginUIState())
+    val loginUIState: StateFlow<LoginUIState> = _loginUIState.asStateFlow()
+    fun setUsername(username: String) {
+        val currentState = _loginUIState.value
+        _loginUIState.value = currentState.copy(username = username)
+    }
+
+    fun setPassword(password: String) {
+        val currentState = _loginUIState.value
+        _loginUIState.value = currentState.copy(password = password)
+    }
     fun login() {
         viewModelScope.launch {
             try {
-                val request = LoginRequest(username.value, password.value)
+                val username = _loginUIState.value.username
+                val password = _loginUIState.value.password
+                val request = LoginRequest(username, password)
                 val response: Response<JsonObject> = RetrofitClient.apiService.login(request)
-                loginResult = if (response.isSuccessful) {
+                val loginResult = if (response.isSuccessful) {
                     val jsonResponse = response.body()
                     val success = jsonResponse?.get("success")?.asBoolean ?: false
                     val message = if (success) "Login successful" else "Login failed"
@@ -32,8 +45,11 @@ class LoginViewModel : ViewModel() {
                 } else {
                     LoginResponse(false, "Error: ${response.code()}", null)
                 }
+                _loginUIState.value = _loginUIState.value.copy(loginResult = loginResult)
             } catch (e: Exception) {
-                loginResult = LoginResponse(false, "Error: ${e.message}", null)
+                _loginUIState.value = _loginUIState.value.copy(
+                    loginResult = LoginResponse(false, "Error: ${e.message}", null)
+                )
             }
         }
     }
