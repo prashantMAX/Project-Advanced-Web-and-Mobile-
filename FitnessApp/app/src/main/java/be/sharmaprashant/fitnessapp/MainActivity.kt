@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FitnessAppTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    FitnessApp()
+                        FitnessApp()
                     }
                 }
             }
