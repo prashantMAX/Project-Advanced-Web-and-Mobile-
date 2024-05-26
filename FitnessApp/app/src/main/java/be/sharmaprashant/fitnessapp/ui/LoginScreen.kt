@@ -16,11 +16,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.network.LoginRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
+import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.LoginViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel(), exerciseviewModel: ExerciseViewModel = viewModel()) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -55,6 +56,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
                         if (body != null && body.get("success").asBoolean) {
                             val token = body.get("token").asString
                             viewModel.fetchUserProfile(token)
+                            exerciseviewModel.fetchExercises(token)
                             navController.navigate("home")
                         } else {
                             errorMessage = body?.get("message")?.asString ?: "Unknown error"

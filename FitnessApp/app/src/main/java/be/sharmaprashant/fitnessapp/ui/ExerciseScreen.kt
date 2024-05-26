@@ -26,11 +26,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExerciseScreen(viewModel: ExerciseViewModel = viewModel(), navController: NavHostController) {
+fun ExerciseScreen(exercise: Exercises, navController: NavHostController) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM"))
 
@@ -62,17 +63,6 @@ fun ExerciseScreen(viewModel: ExerciseViewModel = viewModel(), navController: Na
                 }
             }
             LazyColumn {
-                items(viewModel.exerciseList) { exercise ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(exercise.exercise_name, fontSize = 16.sp)
-                        Text("${exercise.calories_per_rep} cal/rep", fontSize = 16.sp)
-                    }
-                }
             }
 
         }
@@ -103,8 +93,14 @@ fun ExerciseScreen(viewModel: ExerciseViewModel = viewModel(), navController: Na
 @Preview
 @Composable
 fun ExerciseScreenPreview(){
+    val dummyData = Exercises(
+        userId = 1,
+        exercise_id = 2,
+        exercise_name = "test",
+        calories_per_rep = 0.100,
+    )
     val navController = rememberNavController()
-    ExerciseScreen(navController = navController)
+    ExerciseScreen(navController = navController, exercise = dummyData)
 }
 
 

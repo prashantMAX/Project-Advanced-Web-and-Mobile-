@@ -50,10 +50,7 @@ fun AddExerciseScreen(navController: NavHostController, viewModel: ExerciseViewM
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = {
-                // Ensure safe conversion from String to required data types
-                val id = exerciseId.toIntOrNull() ?: 0
-                val calories = caloriesPerRep.toDoubleOrNull() ?: 0.0
-                viewModel.addExercise(id, exerciseName, calories)
+
             }) {
                 Text("Add Exercise")
             }
