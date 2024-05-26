@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +32,8 @@ import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExerciseScreen(exercise: Exercises, navController: NavHostController) {
+fun ExerciseScreen(navController: NavHostController, exerciseViewModel: ExerciseViewModel = viewModel()) {
+    val exerciseList by exerciseViewModel.exercises.observeAsState(initial = emptyList())
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM"))
 
@@ -58,13 +60,16 @@ fun ExerciseScreen(exercise: Exercises, navController: NavHostController) {
             ) {
                 Text("Oefeningen", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
                 Spacer(modifier = Modifier.width(8.dp))
-                Button(onClick = { navController.navigate("addExerciseScreen")  }) {
+                Button(onClick = { navController.navigate("addExerciseScreen") }) {
                     Icon(Icons.Default.Add, contentDescription = "Add")
                 }
             }
+            Spacer(modifier = Modifier.height(8.dp))
             LazyColumn {
+                items(exerciseList) { item ->
+                    ExerciseItem(exercise = item)
+                }
             }
-
         }
 
         Row(
@@ -89,18 +94,23 @@ fun ExerciseScreen(exercise: Exercises, navController: NavHostController) {
     }
 }
 
+@Composable
+fun ExerciseItem(exercise: Exercises) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Text(text = exercise.exercise_name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = "Calories per rep: ${exercise.calories_per_rep}", fontSize = 14.sp)
+    }
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
-fun ExerciseScreenPreview(){
-    val dummyData = Exercises(
-        userId = 1,
-        exercise_id = 2,
-        exercise_name = "test",
-        calories_per_rep = 0.100,
-    )
+fun ExerciseScreenPreview() {
     val navController = rememberNavController()
-    ExerciseScreen(navController = navController, exercise = dummyData)
+    ExerciseScreen(navController = navController)
 }
-
-

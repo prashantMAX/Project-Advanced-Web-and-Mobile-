@@ -34,7 +34,7 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun getUserData(@Body request: TokenRequest): Response<JsonObject>
 
-    @GET("GetExercises.php")
+    @POST("GetExercises.php")
     @Headers("Content-Type: application/json")
     suspend fun getExercise(@Body request: TokenRequest): Response<JsonObject>
 }
