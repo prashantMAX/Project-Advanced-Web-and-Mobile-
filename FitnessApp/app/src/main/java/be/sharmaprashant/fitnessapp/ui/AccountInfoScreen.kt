@@ -23,22 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import be.sharmaprashant.fitnessapp.data.UserProfile
-
 @Composable
-fun AccountInfoScreen() {
-    // Dummy user profile data for demonstration
-    val userProfile = remember {
-        UserProfile(
-            userID = 1,
-            name = "Johndoe",
-            age = 30,
-            weight = 80.5f,
-            height = 180.0f,
-            gender = "Male",
-            activityLevel = "Moderately Active"
-        )
-    }
-
+fun AccountInfoScreen(userProfile: UserProfile) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -74,16 +60,26 @@ fun ProfileItem(icon: ImageVector, text: String) {
                 modifier = Modifier.size(24.dp),
                 contentScale = ContentScale.Fit,
             )
-            Spacer(modifier = Modifier.width(16.dp)) // Adjust the spacing as needed
+            Spacer(modifier = Modifier.width(16.dp))
             Text(text = text)
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewAccountInfo() {
-
-    AccountInfoScreen()
+    val dummyUserProfile = UserProfile(
+        profileID = 1,
+        userID = 1,
+        name = "John Doe",
+        age = 30,
+        weight = 80.5f,
+        height = 180.0f,
+        gender = "Male",
+        activityLevel = "Moderately Active"
+    )
+    AccountInfoScreen(userProfile = dummyUserProfile)
 }
 
 
