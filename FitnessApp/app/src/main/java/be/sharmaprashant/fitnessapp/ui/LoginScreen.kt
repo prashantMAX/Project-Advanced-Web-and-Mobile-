@@ -1,17 +1,11 @@
 package be.sharmaprashant.fitnessapp.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -20,61 +14,71 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.network.LoginRequest
+import be.sharmaprashant.fitnessapp.network.RetrofitClient
+import be.sharmaprashant.fitnessapp.viewModel.LoginViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel()) {
-    val loginUIState by viewModel.loginUIState.collectAsState()
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center,
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
-            value = loginUIState.username,
-            onValueChange = { viewModel.setUsername(it)},
-            modifier = Modifier
-                .padding(vertical = 4.dp)
-                .fillMaxWidth(),
+            value = username,
+            onValueChange = { username = it },
             label = { Text("Username") }
         )
+        Spacer(modifier = Modifier.height(8.dp))
         TextField(
-            value = loginUIState.password,
-            onValueChange = { viewModel.setPassword(it)},
-            modifier = Modifier
-                .padding(vertical = 4.dp)
-                .fillMaxWidth(),
+            value = password,
+            onValueChange = { password = it },
             label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = PasswordVisualTransformation()
         )
-        Button(
-            onClick = {viewModel.login() },
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth()
-        ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+            coroutineScope.launch {
+                try {
+                    val response = RetrofitClient.apiService.login(LoginRequest(username, password))
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body != null && body.get("success").asBoolean) {
+                            val token = body.get("token").asString
+                            viewModel.fetchUserProfile(token)
+                            navController.navigate("home")
+                        } else {
+                            errorMessage = body?.get("message")?.asString ?: "Unknown error"
+                        }
+                    } else {
+                        errorMessage = "Login failed"
+                    }
+                } catch (e: Exception) {
+                    errorMessage = "Exception: ${e.message}"
+                }
+            }
+        }) {
             Text("Login")
         }
-        loginUIState.loginResult?.let {
-            if (!it.success) {
-                Text(it.message ?: "Login failed")
-            }
-        }
-        LaunchedEffect(loginUIState.loginResult) {
-            if (loginUIState.loginResult?.success == true) {
-                navController.navigate("home")
-            }
+        errorMessage?.let {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = it, color = MaterialTheme.colorScheme.error)
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun PreviewLoginScreen() {
     val navController = rememberNavController()
-    LoginScreen(navController = navController)
+    LoginScreen(navController)
 }
-

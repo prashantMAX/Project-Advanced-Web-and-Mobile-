@@ -30,11 +30,13 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun login(@Body request: LoginRequest): Response<JsonObject>
 
-    @GET("GetUser.php")
-    suspend fun getUserData(@Header("Authorization") token: String): Response<UserProfile>
+    @POST("GetUser.php")
+    @Headers("Content-Type: application/json")
+    suspend fun getUserData(@Body request: TokenRequest): Response<JsonObject>
 
     @GET("GetExercises.php")
-    suspend fun getExercise(@Header("Authorization") token: String): Response<List<Exercises>>
+    @Headers("Content-Type: application/json")
+    suspend fun getExercise(@Body request: TokenRequest): Response<JsonObject>
 }
 data class LoginResponse(
     val success: Boolean,
@@ -49,3 +51,6 @@ data class LoginRequest(
     val password: String
 )
 
+data class TokenRequest(
+    val token: String
+)

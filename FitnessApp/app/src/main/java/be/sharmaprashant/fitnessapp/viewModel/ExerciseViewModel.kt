@@ -1,4 +1,4 @@
-package be.sharmaprashant.fitnessapp.ui
+package be.sharmaprashant.fitnessapp.viewModel
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel

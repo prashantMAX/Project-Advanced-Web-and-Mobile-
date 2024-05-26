@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
