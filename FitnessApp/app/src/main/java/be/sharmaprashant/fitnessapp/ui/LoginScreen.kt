@@ -64,7 +64,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
         }
         LaunchedEffect(loginUIState.loginResult) {
             if (loginUIState.loginResult?.success == true) {
-                navController.navigate("accountInfo")
+                navController.navigate("home")
             }
         }
     }

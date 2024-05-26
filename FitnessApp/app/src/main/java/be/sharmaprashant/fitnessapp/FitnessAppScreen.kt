@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.ui.AccountInfoScreen
 import be.sharmaprashant.fitnessapp.ui.AddExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.ExerciseScreen
+import be.sharmaprashant.fitnessapp.ui.HomePage
 import be.sharmaprashant.fitnessapp.ui.LoginScreen
 
 
@@ -22,6 +23,9 @@ fun FitnessApp(){
     NavHost(navController, startDestination = "login") {
         composable("login") {
             LoginScreen(navController = navController)
+        }
+        composable("home") {
+            HomePage(navController = navController)
         }
         composable("accountInfo") {
             AccountInfoScreen(navController = navController)

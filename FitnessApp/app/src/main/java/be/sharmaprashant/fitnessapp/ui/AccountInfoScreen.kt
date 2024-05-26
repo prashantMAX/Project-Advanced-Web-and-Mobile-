@@ -54,9 +54,9 @@ fun AccountInfoScreen(viewModel: AccountInfoViewModel = viewModel(), navControll
         ProfileItem(icon = Icons.Default.Male, text = "Gender: ${userProfile.gender}")
         ProfileItem(icon = Icons.Default.SportsGymnastics, text = "Activity Level: ${userProfile.activityLevel}")
         Box(){
-            Button(onClick = {navController.navigate("exercise")
+            Button(onClick = {navController.navigate("home")
             }) {
-                Text("Exercises", color = Color.White, fontSize = 18.sp)
+                Text("Back", color = Color.White, fontSize = 18.sp)
             }
         }
     }
