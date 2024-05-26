@@ -11,22 +11,27 @@ import androidx.compose.material.icons.filled.Height
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material.icons.filled.SportsGymnastics
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.data.UserProfile
 
 @Composable
-fun AccountInfoScreen(viewModel: AccountInfoViewModel = viewModel()) {
+fun AccountInfoScreen(viewModel: AccountInfoViewModel = viewModel(), navController: NavHostController) {
     val userProfile = viewModel.userProfile
 
     Column(
@@ -48,6 +53,12 @@ fun AccountInfoScreen(viewModel: AccountInfoViewModel = viewModel()) {
         ProfileItem(icon = Icons.Default.Height, text = "Height: ${userProfile.height} cm")
         ProfileItem(icon = Icons.Default.Male, text = "Gender: ${userProfile.gender}")
         ProfileItem(icon = Icons.Default.SportsGymnastics, text = "Activity Level: ${userProfile.activityLevel}")
+        Box(){
+            Button(onClick = {navController.navigate("exercise")
+            }) {
+                Text("Exercises", color = Color.White, fontSize = 18.sp)
+            }
+        }
     }
 }
 @Composable
@@ -71,7 +82,8 @@ fun ProfileItem(icon: ImageVector, text: String) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewAccountInfo() {
-    AccountInfoScreen()
+    val navController = rememberNavController()
+    AccountInfoScreen(navController = navController)
 }
 
 
