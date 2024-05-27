@@ -32,8 +32,7 @@ import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExerciseScreen(navController: NavHostController, exerciseViewModel: ExerciseViewModel = viewModel()) {
-    val exerciseList by exerciseViewModel.exercises.observeAsState(initial = emptyList())
+fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM"))
 
@@ -66,8 +65,8 @@ fun ExerciseScreen(navController: NavHostController, exerciseViewModel: Exercise
             }
             Spacer(modifier = Modifier.height(8.dp))
             LazyColumn {
-                items(exerciseList) { item ->
-                    ExerciseItem(exercise = item)
+                items(exercise) { exercise ->
+                    ExerciseItem(exercise = exercise)
                 }
             }
         }
@@ -112,5 +111,10 @@ fun ExerciseItem(exercise: Exercises) {
 @Composable
 fun ExerciseScreenPreview() {
     val navController = rememberNavController()
-    ExerciseScreen(navController = navController)
+    val sampleExercises = listOf(
+        Exercises(1, 1, "Push Up", 0.5),
+        Exercises(1, 2, "Sit Up", 0.4),
+        Exercises(1, 3, "Squat", 0.6)
+    )
+    ExerciseScreen(navController = navController, exercise = sampleExercises)
 }

@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                         composable("exercise") {
                             val exercise = exerciseViewModel.exercises.value
                             exercise?.let {
-                                ExerciseScreen(exerciseViewModel=exerciseViewModel,
+                                ExerciseScreen(exercise = it,
                                     navController = navController
                                 )
                             }
