@@ -16,7 +16,7 @@ class ExerciseViewModel : ViewModel() {
     private val TAG = "ExerciseViewModel"
 
     private val _exercises = MutableLiveData<List<Exercises>>()
-    val exercises: LiveData<List<Exercises>> get() = _exercises
+    val exercises: MutableLiveData<List<Exercises>> get() = _exercises
 
     fun fetchExercises(token: String) {
         viewModelScope.launch {

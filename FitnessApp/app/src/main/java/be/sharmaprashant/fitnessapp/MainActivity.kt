@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     val navController: NavHostController = rememberNavController()
                     NavHost(navController, startDestination = "login") {
                         composable("login") {
-                            LoginScreen(navController, userProfileViewModel)
+                            LoginScreen(navController, userProfileViewModel,exerciseViewModel)
                         }
                         composable("accountInfo") {
                             val userProfile = userProfileViewModel.userProfile.value
@@ -48,10 +48,11 @@ class MainActivity : ComponentActivity() {
                             AddExerciseScreen(navController = navController)
                         }
                         composable("exercise") {
+
                             val exercise = exerciseViewModel.exercises.value
                             val dummyData = listOf(
-                                Exercises(1, 1, "Pushup", 0.1),
-                                Exercises(1, 1, "Plank", 0.50),
+                                Exercises(1, 1, "Mock", 0.1),
+                                Exercises(1, 1, "Mock", 0.50),
                                 )
 
                             val exerciseList = if (exercise.isNullOrEmpty()) dummyData else exercise
