@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.ui.AccountInfoScreen
 import be.sharmaprashant.fitnessapp.ui.AddExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.ExerciseScreen
@@ -48,14 +49,23 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("exercise") {
                             val exercise = exerciseViewModel.exercises.value
-                            exercise?.let {
-                                ExerciseScreen(exercise = it,
-                                    navController = navController
+                            val dummyData = listOf(
+                                Exercises(1, 1, "Pushup", 0.1),
+                                Exercises(1, 1, "Plank", 0.50),
                                 )
-                            }
+
+                            val exerciseList = if (exercise.isNullOrEmpty()) dummyData else exercise
+
+                            ExerciseScreen(
+                                exercise = exerciseList,
+                                navController = navController
+                            )
                         }
                         composable("home") {
-                            HomePage(navController = navController)
+                            val userProfile = userProfileViewModel.userProfile.value
+                            userProfile?.let {
+                                HomePage(navController = navController, userProfile = it)
+                            }
                         }
                     }
                 }

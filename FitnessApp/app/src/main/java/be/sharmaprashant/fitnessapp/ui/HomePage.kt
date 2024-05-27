@@ -22,10 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.R
+import be.sharmaprashant.fitnessapp.data.UserProfile
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage(navController: NavHostController) {
+fun HomePage(navController: NavHostController, userProfile: UserProfile) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -41,7 +42,7 @@ fun HomePage(navController: NavHostController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfileSection(navController)
+            ProfileSection(navController, userProfile)
             Spacer(Modifier.height(20.dp))
             MenuItems(navController)
         }
@@ -49,7 +50,7 @@ fun HomePage(navController: NavHostController) {
 }
 
 @Composable
-fun ProfileSection(navController: NavHostController) {
+fun ProfileSection(navController: NavHostController, userProfile: UserProfile) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -65,7 +66,7 @@ fun ProfileSection(navController: NavHostController) {
                 .clip(CircleShape)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text("Your Name")
+        Text(userProfile.name)
 
     }
 }
@@ -105,5 +106,15 @@ fun navigateToScreen(item: String, navController: NavHostController) {
 @Composable
 fun PreviewHomePage() {
     val navController = rememberNavController()
-    HomePage(navController)
+    val userProfile = UserProfile(
+        profileID = 1,
+        userID = 1,
+        name = "Sharmaprashant",
+        age = 25,
+        weight = 70.0f,
+        height = 175.0f,
+        gender = "Male",
+        activityLevel = "Moderate"
+    )
+    HomePage(navController, userProfile)
 }
