@@ -51,6 +51,7 @@ fun AddExerciseScreen(navController: NavHostController, viewModel: ExerciseViewM
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = {
 
+
             }) {
                 Text("Add Exercise")
             }
