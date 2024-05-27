@@ -1,5 +1,6 @@
 package be.sharmaprashant.fitnessapp.network
 
+import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.data.UserProfile
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -29,6 +30,10 @@ interface ApiService {
     @POST("GetUser.php")
     @Headers("Content-Type: application/json")
     suspend fun getUserData(@Body request: TokenRequest): Response<JsonObject>
+
+    @POST("GetExercises.php")
+    @Headers("Content-Type: application/json")
+    suspend fun getExercise(@Body request: TokenRequest): Response<JsonObject>
 }
 
 data class LoginResponse(

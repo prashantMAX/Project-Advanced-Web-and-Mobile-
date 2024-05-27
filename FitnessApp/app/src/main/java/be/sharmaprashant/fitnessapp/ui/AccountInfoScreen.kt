@@ -1,6 +1,5 @@
 package be.sharmaprashant.fitnessapp.ui
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -11,20 +10,24 @@ import androidx.compose.material.icons.filled.Height
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material.icons.filled.SportsGymnastics
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.data.UserProfile
 @Composable
-fun AccountInfoScreen(userProfile: UserProfile) {
+fun AccountInfoScreen(userProfile: UserProfile, navController: NavHostController,) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -44,6 +47,13 @@ fun AccountInfoScreen(userProfile: UserProfile) {
         ProfileItem(icon = Icons.Default.Height, text = "Height: ${userProfile.height} cm")
         ProfileItem(icon = Icons.Default.Male, text = "Gender: ${userProfile.gender}")
         ProfileItem(icon = Icons.Default.SportsGymnastics, text = "Activity Level: ${userProfile.activityLevel}")
+        Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            Button(onClick = {
+                navController.navigate("home")
+            }) {
+                Text("Back", color = Color.White, fontSize = 18.sp)
+            }
+        }
     }
 }
 
@@ -79,7 +89,5 @@ fun PreviewAccountInfo() {
         gender = "Male",
         activityLevel = "Moderately Active"
     )
-    AccountInfoScreen(userProfile = dummyUserProfile)
+    AccountInfoScreen(userProfile = dummyUserProfile, navController = rememberNavController())
 }
-
-
