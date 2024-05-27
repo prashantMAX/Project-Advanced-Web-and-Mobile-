@@ -50,17 +50,10 @@ class MainActivity : ComponentActivity() {
                         composable("exercise") {
 
                             val exercise = exerciseViewModel.exercises.value
-                            val dummyData = listOf(
-                                Exercises(1, 1, "Mock", 0.1),
-                                Exercises(1, 1, "Mock", 0.50),
-                                )
 
-                            val exerciseList = if (exercise.isNullOrEmpty()) dummyData else exercise
-
-                            ExerciseScreen(
-                                exercise = exerciseList,
-                                navController = navController
-                            )
+                            if (exercise != null) {
+                                ExerciseScreen(exercise = exercise, navController = navController )
+                            }
                         }
                         composable("home") {
                             val userProfile = userProfileViewModel.userProfile.value
