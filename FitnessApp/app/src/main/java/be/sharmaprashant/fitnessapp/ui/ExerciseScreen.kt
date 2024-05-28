@@ -41,7 +41,7 @@ import java.util.Locale
 fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
-    val exerciseviewModel: ExerciseViewModel = viewModel()
+    val exerciseViewModel: ExerciseViewModel = viewModel()
 
 
     Column(
@@ -60,57 +60,70 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             }
         }
 
-        Column {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Oefeningen", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
-                Spacer(modifier = Modifier.width(8.dp))
+                Text("Exercises", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
+                Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
                 Button(onClick = { navController.navigate("addExerciseScreen") }) {
-                    Icon(Icons.Default.Add, contentDescription = "Add")
+                    Icon(Icons.Filled.Add, contentDescription = "Add Exercise")
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
                 items(exercise) { exercise ->
                     ExerciseItem(exercise = exercise)
                 }
             }
         }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier.weight(1f)
         ) {
-            Text("Food", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = { navController.navigate("AddFoodScreen") }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Food", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
+                Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
+                Button(onClick = { navController.navigate("AddFoodScreen") }) {
+                    Icon(Icons.Filled.Add, contentDescription = "Add Food")
+                }
             }
-        }
-        LazyColumn {
-            items(food) { food ->
-                FoodItem(food = food)
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                items(food) { food ->
+                    FoodItem(food = food)
+                }
             }
         }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(8.dp)
-        ) {
-            Button(onClick = {
+        Button(
+            onClick = {
                 currentDay = currentDay.plusDays(1)
-                Log.d(TAG, "ExerciseScreen: ${exerciseviewModel.token}, $currentDay")
-                exerciseviewModel.token?.let { exerciseviewModel.fetchExercises(it,currentDay.toString()) }
-
-            }) {
-                Text("Volgende dag", color = Color.White, fontSize = 18.sp)
-            }
+                Log.d("ExerciseScreen", "Current Day: ${exerciseViewModel.token}")
+                exerciseViewModel.token?.let {
+                    exerciseViewModel.fetchExercises(it, currentDay.toString())
+                }
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Next Day", color = Color.White, fontSize = 18.sp)
         }
     }
 }
+
+
 
 @Composable
 fun ExerciseItem(exercise: Exercises) {
@@ -154,9 +167,6 @@ fun ExerciseScreenPreview() {
     )
     val dummyFoods = listOf(
         Food(userId=1, foodID = 2, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4),
-        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4)
-
-
-    )
+        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4)    )
     ExerciseScreen(navController = navController, exercise = sampleExercises, food = dummyFoods)
 }
