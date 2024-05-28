@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
                                     exercise = exercise,
                                     navController = navController,
                                     food = food,
-                                    exerciseViewModel
+                                    exerciseviewModel = exerciseViewModel
                                 )
                             } else {
                                 Text("Error: Exercise or food data is missing.")
