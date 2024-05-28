@@ -21,8 +21,7 @@ class ExerciseViewModel : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: MutableLiveData<List<Exercises>> get() = _exercises
     private var _x = "";
-    val tokens: String
-        get() = _x
+    val tokens = _x;
 
 
     fun fetchExercises(token: String, date: String) {
@@ -32,7 +31,7 @@ class ExerciseViewModel : ViewModel() {
             try {
                 Log.d(TAG, "Fetching exercises")
                 val response: Response<JsonObject> = RetrofitClient.apiService.getExercise(
-                    TokenRequest(token)
+                    ExercisesRequest(token, date)
                 )
                 if (response.isSuccessful) {
                     Log.d(TAG, "Response successful: $response")
@@ -73,6 +72,10 @@ class ExerciseViewModel : ViewModel() {
     }
 
     fun addExercises(exerciseName: String, caloriesPerRep: Double) {
+        Log.d(TAG, "Adding exercise $tokens")
+        Log.d(TAG, "Adding exercise $exerciseName")
+        Log.d(TAG, "Adding exercise $caloriesPerRep")
+
         viewModelScope.launch {
             RetrofitClient.apiService.AddExercise(
                 AddExerciseRequest(
