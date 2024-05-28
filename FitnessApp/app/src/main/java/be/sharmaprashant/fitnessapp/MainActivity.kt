@@ -61,7 +61,12 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         composable("addFoodScreen") {
-                            AddFoodScreen(navController = navController)
+                            AddFoodScreen(navController = navController, foodViewModel){
+                                foodViewModel.fetchFood(
+                                    foodViewModel.token ?: "",
+                                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                                )
+                            }
                         }
                         composable("exercise") {
                             val exercise = exerciseViewModel.exercises.observeAsState().value

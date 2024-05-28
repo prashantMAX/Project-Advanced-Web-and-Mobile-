@@ -2,13 +2,10 @@ package be.sharmaprashant.fitnessapp.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,59 +16,74 @@ import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 
 @Composable
-fun AddFoodScreen(navController: NavHostController, viewModel: FoodViewModel = viewModel()) {
+fun AddFoodScreen(
+    navController: NavHostController,
+    viewModel: FoodViewModel = viewModel(),
+    onFoodAdded: () -> Unit
+) {
     var foodName by remember { mutableStateOf("") }
     var caloriesPerServing by remember { mutableStateOf("") }
-    var protienPerServing by remember { mutableStateOf("") }
-    var carbohyfratesPerServing by remember { mutableStateOf("") }
+    var proteinPerServing by remember { mutableStateOf("") }
+    var carbohydratesPerServing by remember { mutableStateOf("") }
     var fatPerServing by remember { mutableStateOf("") }
-    var exerciseId by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {  // This Box centers its children
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,  // Center children horizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(32.dp)  // Provide some padding around the column
+                .padding(32.dp)
         ) {
-
-            Spacer(modifier = Modifier.height(16.dp))  // Space between TextField components
+            Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 value = foodName,
                 onValueChange = { foodName = it },
-                label = { Text("Exercise Name") }
+                label = { Text("Food Name") }
             )
-
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 value = caloriesPerServing,
                 onValueChange = { caloriesPerServing = it },
-                label = { Text("Calories per Rep") }
+                label = { Text("Calories per Serving") }
             )
-
+            Spacer(modifier = Modifier.height(16.dp))
             TextField(
-                value = protienPerServing,
-                onValueChange = { protienPerServing = it },
-                label = { Text("protien per Rep") }
+                value = proteinPerServing,
+                onValueChange = { proteinPerServing = it },
+                label = { Text("Protein per Serving") }
             )
-
+            Spacer(modifier = Modifier.height(16.dp))
             TextField(
-                value = carbohyfratesPerServing,
-                onValueChange = { carbohyfratesPerServing = it },
-                label = { Text("carbohyfrates per Rep") }
+                value = carbohydratesPerServing,
+                onValueChange = { carbohydratesPerServing = it },
+                label = { Text("Carbohydrates per Serving") }
             )
-
+            Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 value = fatPerServing,
                 onValueChange = { fatPerServing = it },
-                label = { Text("fat per Rep") }
+                label = { Text("Fat per Serving") }
             )
-
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = {
-                navController.navigate("home")
+                val calories = caloriesPerServing.toInt()
+                val protein = proteinPerServing.toDouble()
+                val carbs = carbohydratesPerServing.toDouble()
+                val fat = fatPerServing.toDouble()
+                if(calories != null || protein != null || carbs != null || fat != null) {
+                    viewModel.addFood(foodName, calories, protein, carbs, fat)
+                    onFoodAdded()
+                    navController.navigate("home")
+                }else{
+                    errorMessage = "Please ensure all nutritional values are entered correctly"
+                }
             }) {
-                Text("Add Exercise")
+                Text("Add Food")
+            }
+            errorMessage?.let {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = it, color = MaterialTheme.colorScheme.error)
             }
         }
     }
@@ -81,6 +93,5 @@ fun AddFoodScreen(navController: NavHostController, viewModel: FoodViewModel = v
 @Composable
 fun AddFoodScreenPreview() {
     val navController = rememberNavController()
-    AddFoodScreen(navController = navController)
+    AddFoodScreen(navController = navController, onFoodAdded = {})
 }
-

@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.sharmaprashant.fitnessapp.data.Food
+import be.sharmaprashant.fitnessapp.network.AddFoodRequest
 import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class FoodViewModel : ViewModel() {
@@ -66,4 +70,37 @@ class FoodViewModel : ViewModel() {
             }
         }
     }
+    fun addFood(foodName: String, caloriesPerServing: Int, proteinPerServing: Double, carbohydratesPerServing: Double, fatPerServing: Double) {
+        val token = this.token
+        if (token == null) {
+            Log.e(TAG, "Token is null, cannot add food")
+            return
+        }
+        viewModelScope.launch {
+            try {
+                Log.d(TAG, "Adding food with token: $token")
+                val response = RetrofitClient.apiService.addFood(
+                    AddFoodRequest(
+                        token,
+                        foodName,
+                        caloriesPerServing,
+                        proteinPerServing,
+                        carbohydratesPerServing,
+                        fatPerServing
+                    )
+                )
+                if (response.isSuccessful) {
+                    Log.d(TAG, "Food added successfully")
+                    // Fetch food again to update the list after adding a new item
+                    fetchFood(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
+                } else {
+                    Log.e(TAG, "Failed to add food: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception when adding food: ${e.message}", e)
+            }
+        }
+    }
+
+
 }
