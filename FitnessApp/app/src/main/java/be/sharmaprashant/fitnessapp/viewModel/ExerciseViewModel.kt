@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.sharmaprashant.fitnessapp.data.Exercises
+import be.sharmaprashant.fitnessapp.network.AddExerciseRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.network.TokenRequest
 import com.google.gson.JsonObject
@@ -17,8 +18,12 @@ class ExerciseViewModel : ViewModel() {
 
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: MutableLiveData<List<Exercises>> get() = _exercises
+    private var _x = "";
+    val tokens = _x
 
     fun fetchExercises(token: String) {
+
+        _x = token;
         viewModelScope.launch {
             try {
                 Log.d(TAG, "Fetching exercises")
@@ -62,10 +67,20 @@ class ExerciseViewModel : ViewModel() {
         }
     }
 
+     fun addExercises(exerciseName: String, caloriesPerRep: Double){
+         viewModelScope.launch {
+             RetrofitClient.apiService.AddExercise(AddExerciseRequest( tokens, exerciseName,caloriesPerRep))
+         }
+
+
+    }
+
     private fun printFetchedData(exercisesList: List<Exercises>) {
         Log.d(TAG, "Fetched exercises:")
         exercisesList.forEachIndexed { index, exercises ->
             Log.d(TAG, "Exercise ${index + 1}: $exercises")
         }
     }
+
+
 }

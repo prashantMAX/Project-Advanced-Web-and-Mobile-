@@ -1,7 +1,5 @@
 package be.sharmaprashant.fitnessapp.network
 
-import be.sharmaprashant.fitnessapp.data.Exercises
-import be.sharmaprashant.fitnessapp.data.UserProfile
 import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -60,7 +58,6 @@ data class TokenRequest(
 
 data class AddExerciseRequest(
     val token: String,
-    val exerciseId: Int,
-    val exerciseName: String,
-    val caloriesPerRep: Double
+    val exercise_name: String,
+    val calories_per_rep: Double
     )
