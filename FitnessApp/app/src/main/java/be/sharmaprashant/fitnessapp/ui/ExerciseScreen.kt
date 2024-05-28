@@ -32,16 +32,16 @@ import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.data.Food
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
+import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>,exerciseviewModel: ExerciseViewModel = viewModel()) {
+fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>, exerciseviewModel: ExerciseViewModel = viewModel(), foodviewModel: FoodViewModel = viewModel()) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
-    val exerciseViewModel: ExerciseViewModel = viewModel()
 
 
     Column(
@@ -111,9 +111,12 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
         Button(
             onClick = {
                 currentDay = currentDay.plusDays(1)
-                Log.d("ExerciseScreen", "Current Day: ${exerciseViewModel.token}")
-                exerciseViewModel.token?.let {
-                    exerciseViewModel.fetchExercises(it, currentDay.toString())
+                Log.d("ExerciseScreen", "Current Day: ${exerciseviewModel.token}")
+                exerciseviewModel.token?.let {
+                    exerciseviewModel.fetchExercises(it, currentDay.toString())
+                }
+                foodviewModel.token?.let {
+                    foodviewModel.fetchFood(it, currentDay.toString())
                 }
             },
             modifier = Modifier.align(Alignment.End)
@@ -166,7 +169,7 @@ fun ExerciseScreenPreview() {
         Exercises(1, 3, "Squat", 0.6,2)
     )
     val dummyFoods = listOf(
-        Food(userId=1, foodID = 2, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4),
-        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4)    )
+        Food(userId=1, foodID = 2, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2),
+        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2)    )
     ExerciseScreen(navController = navController, exercise = sampleExercises, food = dummyFoods)
 }

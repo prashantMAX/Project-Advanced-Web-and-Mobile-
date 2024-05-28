@@ -65,14 +65,15 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("exercise") {
                             val exercise = exerciseViewModel.exercises.observeAsState().value
-                            val food = foodViewModel.exercises.observeAsState().value
+                            val food = foodViewModel.food.observeAsState().value
 
                             if (exercise != null && food != null) {
                                 ExerciseScreen(
                                     exercise = exercise,
                                     navController = navController,
                                     food = food,
-                                    exerciseviewModel = exerciseViewModel
+                                    exerciseviewModel = exerciseViewModel,
+                                    foodviewModel = foodViewModel
                                 )
                             } else {
                                 Text("Error: Exercise or food data is missing.")

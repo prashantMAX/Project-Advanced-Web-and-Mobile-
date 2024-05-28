@@ -63,7 +63,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
                             val token = body.get("token").asString
                             viewModel.fetchUserProfile(token)
                             exerciseviewModel.fetchExercises(token, date)
-                            foodviewModel.fetchFood(token)
+                            foodviewModel.fetchFood(token, date)
                             navController.navigate("home")
                         } else {
                             errorMessage = body?.get("message")?.asString ?: "Unknown error"

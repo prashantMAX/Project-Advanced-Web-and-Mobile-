@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.network.AddExerciseRequest
-import be.sharmaprashant.fitnessapp.network.ExercisesRequest
+import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.network.TokenRequest
 import com.google.gson.JsonObject
@@ -32,7 +32,7 @@ class ExerciseViewModel : ViewModel() {
             Log.d(TAG, "Fetching exercises with token: $token")
             try {
                 val response: Response<JsonObject> = RetrofitClient.apiService.getExercise(
-                    ExercisesRequest(token, date)
+                    ExercisesAndFoodRequest(token, date)
                 )
                 if (response.isSuccessful) {
                     val body = response.body()

@@ -7,5 +7,6 @@ data class Food (
     val caloriesPerServing: Int,
     val proteinPerServing: Double,
     val carbohydratesPerServing: Double,
-    val fatPerServing: Double
+    val fatPerServing: Double,
+    val date: Int,
 )

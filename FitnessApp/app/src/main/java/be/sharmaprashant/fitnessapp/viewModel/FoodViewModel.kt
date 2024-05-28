@@ -4,35 +4,36 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.data.Food
-import be.sharmaprashant.fitnessapp.data.UserProfile
-import be.sharmaprashant.fitnessapp.network.ExercisesRequest
+import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
-import be.sharmaprashant.fitnessapp.network.TokenRequest
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class FoodViewModel : ViewModel() {
-    private val TAG = "ExerciseViewModel"
 
-    private val _exercises = MutableLiveData<List<Food>>()
-    val exercises: MutableLiveData<List<Food>> get() = _exercises
-    fun fetchFood(token: String) {
+class FoodViewModel : ViewModel() {
+    private val TAG = "FoodViewModel"
+
+    private val _foods = MutableLiveData<List<Food>>()
+    val food: MutableLiveData<List<Food>> get() = _foods
+
+    var token: String? = null
+    fun fetchFood(token: String, date: String) {
+        this.token = token
         viewModelScope.launch {
             try {
-                Log.d(TAG, "Fetching exercises")
+                Log.d(TAG, "Fetching foods")
                 val response: Response<JsonObject> = RetrofitClient.apiService.getNutrition(
-                    TokenRequest(token)
+                    ExercisesAndFoodRequest(token, date)
                 )
                 if (response.isSuccessful) {
                     Log.d(TAG, "Response successful: $response")
                     val body = response.body()
                     if (body != null) {
                         if (body.get("success").asBoolean) {
-                            Log.d(TAG, "Parsing exercises")
-                            val foodJson = body.getAsJsonArray("exercises")
+                            Log.d(TAG, "Parsing foods")
+                            val foodJson = body.getAsJsonArray("foods")
                             val foodList = mutableListOf<Food>()
                             foodJson.forEach { foodElement ->
                                 val foodObject = foodElement.asJsonObject
@@ -43,12 +44,13 @@ class FoodViewModel : ViewModel() {
                                     caloriesPerServing = foodObject.get("CaloriesPerServing").asInt,
                                     proteinPerServing = foodObject.get("ProteinPerServing").asDouble,
                                     carbohydratesPerServing = foodObject.get("CarbohydratesPerServing").asDouble,
-                                    fatPerServing = foodObject.get("FatPerServing").asDouble
+                                    fatPerServing = foodObject.get("FatPerServing").asDouble,
+                                    date = foodObject.get("date_id").asInt
                                 )
                                 foodList.add(foods)
                             }
-                            _exercises.value = foodList
-                            Log.d(TAG, "Exercises parsed: $foodList")
+                            _foods.value = foodList
+                            Log.d(TAG, "foods parsed: $foodList")
                         } else {
                             Log.e(TAG, "API success flag is false")
                         }
