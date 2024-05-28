@@ -8,12 +8,12 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.ui.AccountInfoScreen
 import be.sharmaprashant.fitnessapp.ui.AddExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.ExerciseScreen
@@ -21,11 +21,14 @@ import be.sharmaprashant.fitnessapp.ui.HomePage
 import be.sharmaprashant.fitnessapp.ui.LoginScreen
 import be.sharmaprashant.fitnessapp.ui.theme.FitnessAppTheme
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
+import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 import be.sharmaprashant.fitnessapp.viewModel.LoginViewModel
 
 class MainActivity : ComponentActivity() {
     private val userProfileViewModel: LoginViewModel by viewModels()
     private val exerciseViewModel: ExerciseViewModel by viewModels()
+    private val foodViewModel: FoodViewModel by viewModels()
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     val navController: NavHostController = rememberNavController()
                     NavHost(navController, startDestination = "login") {
                         composable("login") {
-                            LoginScreen(navController, userProfileViewModel,exerciseViewModel)
+                            LoginScreen(navController, userProfileViewModel,exerciseViewModel, foodViewModel)
                         }
                         composable("accountInfo") {
                             val userProfile = userProfileViewModel.userProfile.value
@@ -48,11 +51,19 @@ class MainActivity : ComponentActivity() {
                             AddExerciseScreen(navController = navController)
                         }
                         composable("exercise") {
-
                             val exercise = exerciseViewModel.exercises.value
+                            val food = foodViewModel.exercises.value
 
                             if (exercise != null) {
-                                ExerciseScreen(exercise = exercise, navController = navController )
+                                if (food != null) {
+                                    ExerciseScreen(
+                                        exercise = exercise,
+                                        navController = navController,
+                                        food = food
+                                    )
+                                }
+                            } else {
+                                Text("Error: Exercise or food data is missing.")
                             }
                         }
                         composable("home") {

@@ -11,21 +11,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.network.LoginRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
+import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 import be.sharmaprashant.fitnessapp.viewModel.LoginViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel(), exerciseviewModel: ExerciseViewModel = viewModel()) {
+fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel(), exerciseviewModel: ExerciseViewModel = viewModel(), foodviewModel: FoodViewModel = viewModel()) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -62,6 +63,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
                             val token = body.get("token").asString
                             viewModel.fetchUserProfile(token)
                             exerciseviewModel.fetchExercises(token, date)
+                            foodviewModel.fetchFood(token)
                             navController.navigate("home")
                         } else {
                             errorMessage = body?.get("message")?.asString ?: "Unknown error"

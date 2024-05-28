@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.network.AddExerciseRequest
+import be.sharmaprashant.fitnessapp.network.ExercisesRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.network.TokenRequest
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.util.Date
 
 class ExerciseViewModel : ViewModel() {
     private val TAG = "ExerciseViewModel"
@@ -19,21 +21,17 @@ class ExerciseViewModel : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: MutableLiveData<List<Exercises>> get() = _exercises
     private var _x = "";
-<<<<<<< HEAD
-    val tokens = _x
-=======
-    val tokens: String
-        get() = _x
->>>>>>> parent of 8626f84 (testing add)
+    val tokens = _x;
 
-    fun fetchExercises(token: String) {
+
+    fun fetchExercises(token: String, date: String) {
 
         _x = token;
         viewModelScope.launch {
             try {
                 Log.d(TAG, "Fetching exercises")
                 val response: Response<JsonObject> = RetrofitClient.apiService.getExercise(
-                    TokenRequest(token)
+                    ExercisesRequest(token, date)
                 )
                 if (response.isSuccessful) {
                     Log.d(TAG, "Response successful: $response")
@@ -50,6 +48,7 @@ class ExerciseViewModel : ViewModel() {
                                     exercise_id = exerciseObject.get("exercise_id").asInt,
                                     exercise_name = exerciseObject.get("exercise_name").asString,
                                     calories_per_rep = exerciseObject.get("calories_per_rep").asDouble,
+                                    date = exerciseObject.get("date_id").asInt
                                 )
                                 exercisesList.add(exercises)
                             }
@@ -72,17 +71,11 @@ class ExerciseViewModel : ViewModel() {
         }
     }
 
-<<<<<<< HEAD
-     fun addExercises(exerciseName: String, caloriesPerRep: Double){
-         viewModelScope.launch {
-             Log.e(TAG, "Unsuccessful response: ${tokens}")
-             Log.e(TAG, "Unsuccessful response: ${exerciseName}")
-             Log.e(TAG, "Unsuccessful response: ${caloriesPerRep}")
-
-             RetrofitClient.apiService.AddExercise(AddExerciseRequest( tokens, exerciseName,caloriesPerRep))
-         }
-=======
     fun addExercises(exerciseName: String, caloriesPerRep: Double) {
+        Log.d(TAG, "Adding exercise $tokens")
+        Log.d(TAG, "Adding exercise $exerciseName")
+        Log.d(TAG, "Adding exercise $caloriesPerRep")
+
         viewModelScope.launch {
             RetrofitClient.apiService.AddExercise(
                 AddExerciseRequest(
@@ -92,7 +85,6 @@ class ExerciseViewModel : ViewModel() {
                 )
             )
         }
->>>>>>> parent of 8626f84 (testing add)
     }
 
     private fun printFetchedData(exercisesList: List<Exercises>) {
@@ -101,6 +93,4 @@ class ExerciseViewModel : ViewModel() {
             Log.d(TAG, "Exercise ${index + 1}: $exercises")
         }
     }
-
-
 }

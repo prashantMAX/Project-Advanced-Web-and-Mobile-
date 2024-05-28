@@ -31,24 +31,15 @@ interface ApiService {
 
     @POST("GetExercises.php")
     @Headers("Content-Type: application/json")
-    suspend fun getExercise(@Body request: TokenRequest): Response<JsonObject>
+    suspend fun getExercise(@Body request: ExercisesRequest): Response<JsonObject>
 
     @POST("AddExercises.php")
     @Headers("Content-Type: application/json")
     suspend fun AddExercise(@Body request: AddExerciseRequest): Response<JsonObject>
 
-<<<<<<< HEAD
     @POST("GetNutrition.php")
     @Headers("Content-Type: application/json")
-    suspend fun getNutrition(@Body request: AddExerciseRequest): Response<JsonObject>
-
-
-
-=======
-    @POST("Test.php")
-    @Headers("Content-Type: application/json")
-    suspend fun getTest(@Body request: ExercisesRequest): Response<JsonObject>
->>>>>>> parent of 8626f84 (testing add)
+    suspend fun getNutrition(@Body request: TokenRequest): Response<JsonObject>
 }
 
 data class LoginResponse(
@@ -65,13 +56,13 @@ data class LoginRequest(
 data class TokenRequest(
     val token: String
 )
+data class ExercisesRequest(
+    val token: String,
+    val date: String
+)
 
 data class AddExerciseRequest(
     val token: String,
     val exercise_name: String,
     val calories_per_rep: Double
-<<<<<<< HEAD
-    )
-=======
 )
->>>>>>> parent of 8626f84 (testing add)
