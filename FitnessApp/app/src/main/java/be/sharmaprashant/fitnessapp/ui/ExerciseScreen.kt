@@ -29,12 +29,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
-    val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM"))
+    val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    val viewModel: ExerciseViewModel = viewModel()
 
     Column(
         modifier = Modifier
@@ -86,6 +90,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>) 
         ) {
             Button(onClick = {
                 currentDay = currentDay.plusDays(1)
+                viewModel.fetchExercises("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc2VySUQiOiIzIiwiaWF0IjoxNzE2ODk0MTMxLCJleHAiOjE3MTY4OTc3MzF9.QXoTRy_qE6lQY2FY4vef-DYgWhADXVteUBp4Jd2-Z_M", currentDay.toString())
             }) {
                 Text("Volgende dag", color = Color.White, fontSize = 18.sp)
             }
@@ -112,9 +117,9 @@ fun ExerciseItem(exercise: Exercises) {
 fun ExerciseScreenPreview() {
     val navController = rememberNavController()
     val sampleExercises = listOf(
-        Exercises(1, 1, "Push Up", 0.5),
-        Exercises(1, 2, "Sit Up", 0.4),
-        Exercises(1, 3, "Squat", 0.6)
+        Exercises(1, 1, "Push Up", 0.5, 2),
+        Exercises(1, 2, "Sit Up", 0.4,2),
+        Exercises(1, 3, "Squat", 0.6,2)
     )
     ExerciseScreen(navController = navController, exercise = sampleExercises)
 }

@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.sharmaprashant.fitnessapp.data.Exercises
+import be.sharmaprashant.fitnessapp.network.ExercisesRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.network.TokenRequest
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.util.Date
 
 class ExerciseViewModel : ViewModel() {
     private val TAG = "ExerciseViewModel"
@@ -18,12 +20,12 @@ class ExerciseViewModel : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: MutableLiveData<List<Exercises>> get() = _exercises
 
-    fun fetchExercises(token: String) {
+    fun fetchExercises(token: String, date: String) {
         viewModelScope.launch {
             try {
                 Log.d(TAG, "Fetching exercises")
-                val response: Response<JsonObject> = RetrofitClient.apiService.getExercise(
-                    TokenRequest(token)
+                val response: Response<JsonObject> = RetrofitClient.apiService.getTest(
+                    ExercisesRequest(token, date = date)
                 )
                 if (response.isSuccessful) {
                     Log.d(TAG, "Response successful: $response")
@@ -40,6 +42,7 @@ class ExerciseViewModel : ViewModel() {
                                     exercise_id = exerciseObject.get("exercise_id").asInt,
                                     exercise_name = exerciseObject.get("exercise_name").asString,
                                     calories_per_rep = exerciseObject.get("calories_per_rep").asDouble,
+                                    date = exerciseObject.get("date_id").asInt
                                 )
                                 exercisesList.add(exercises)
                             }

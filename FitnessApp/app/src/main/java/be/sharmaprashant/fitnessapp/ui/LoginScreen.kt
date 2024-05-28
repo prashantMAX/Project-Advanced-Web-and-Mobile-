@@ -19,13 +19,18 @@ import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.LoginViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel(), exerciseviewModel: ExerciseViewModel = viewModel()) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val date = dateFormat.format(Date())
     val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -56,7 +61,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
                         if (body != null && body.get("success").asBoolean) {
                             val token = body.get("token").asString
                             viewModel.fetchUserProfile(token)
-                            exerciseviewModel.fetchExercises(token)
+                            exerciseviewModel.fetchExercises(token, date)
                             navController.navigate("home")
                         } else {
                             errorMessage = body?.get("message")?.asString ?: "Unknown error"
