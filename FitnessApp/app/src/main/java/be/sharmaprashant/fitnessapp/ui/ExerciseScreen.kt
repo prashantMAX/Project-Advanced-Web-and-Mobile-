@@ -38,7 +38,7 @@ import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>,ExerciseviewModel: ExerciseViewModel = viewModel()) {
+fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>,exerciseviewModel: ExerciseViewModel = viewModel()) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
     val exerciseviewModel: ExerciseViewModel = viewModel()
