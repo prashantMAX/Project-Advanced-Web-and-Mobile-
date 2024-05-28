@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.data.Exercises
+import be.sharmaprashant.fitnessapp.data.Food
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -37,7 +38,7 @@ import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>) {
+fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
     val exerciseviewModel: ExerciseViewModel = viewModel()
@@ -79,11 +80,19 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>) 
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Food", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
-            Text("Extra", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = { navController.navigate("addFood") }) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
+            }
+        }
+        LazyColumn {
+            items(food) { food ->
+                FoodItem(food = food)
+            }
         }
 
         Box(
@@ -115,6 +124,23 @@ fun ExerciseItem(exercise: Exercises) {
     }
 }
 
+@Composable
+fun FoodItem(food: Food) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Text(text = food.foodName, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = "Calories per rep: ${food.caloriesPerServing}", fontSize = 14.sp)
+        Text(text = "Protien per rep: ${food.proteinPerServing}", fontSize = 14.sp)
+        Text(text = "Carbohydrates per rep: ${food.carbohydratesPerServing}", fontSize = 14.sp)
+        Text(text = "Fat per rep: ${food.fatPerServing}", fontSize = 14.sp)
+
+    }
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
@@ -125,5 +151,11 @@ fun ExerciseScreenPreview() {
         Exercises(1, 2, "Sit Up", 0.4,2),
         Exercises(1, 3, "Squat", 0.6,2)
     )
-    ExerciseScreen(navController = navController, exercise = sampleExercises)
+    val dummyFoods = listOf(
+        Food(userId=1, foodID = 2, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4),
+        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4)
+
+
+    )
+    ExerciseScreen(navController = navController, exercise = sampleExercises, food = dummyFoods)
 }
