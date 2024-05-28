@@ -19,6 +19,7 @@ import be.sharmaprashant.fitnessapp.ui.AddExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.ExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.HomePage
 import be.sharmaprashant.fitnessapp.ui.LoginScreen
+import be.sharmaprashant.fitnessapp.ui.AddFoodScreen
 import be.sharmaprashant.fitnessapp.ui.theme.FitnessAppTheme
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
@@ -49,6 +50,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("addExerciseScreen") {
                             AddExerciseScreen(navController = navController)
+                        }
+                        composable("addFoodScreen") {
+                            AddFoodScreen(navController = navController)
                         }
                         composable("exercise") {
                             val exercise = exerciseViewModel.exercises.value

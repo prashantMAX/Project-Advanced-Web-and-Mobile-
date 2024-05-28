@@ -85,7 +85,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
         ) {
             Text("Food", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
             Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = { navController.navigate("addFood") }) {
+            Button(onClick = { navController.navigate("AddFoodScreen") }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
