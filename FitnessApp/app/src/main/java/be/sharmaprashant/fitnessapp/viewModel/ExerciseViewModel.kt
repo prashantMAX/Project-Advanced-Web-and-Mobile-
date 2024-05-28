@@ -19,7 +19,12 @@ class ExerciseViewModel : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: MutableLiveData<List<Exercises>> get() = _exercises
     private var _x = "";
+<<<<<<< HEAD
     val tokens = _x
+=======
+    val tokens: String
+        get() = _x
+>>>>>>> parent of 8626f84 (testing add)
 
     fun fetchExercises(token: String) {
 
@@ -67,6 +72,7 @@ class ExerciseViewModel : ViewModel() {
         }
     }
 
+<<<<<<< HEAD
      fun addExercises(exerciseName: String, caloriesPerRep: Double){
          viewModelScope.launch {
              Log.e(TAG, "Unsuccessful response: ${tokens}")
@@ -75,6 +81,18 @@ class ExerciseViewModel : ViewModel() {
 
              RetrofitClient.apiService.AddExercise(AddExerciseRequest( tokens, exerciseName,caloriesPerRep))
          }
+=======
+    fun addExercises(exerciseName: String, caloriesPerRep: Double) {
+        viewModelScope.launch {
+            RetrofitClient.apiService.AddExercise(
+                AddExerciseRequest(
+                    tokens,
+                    exerciseName,
+                    caloriesPerRep
+                )
+            )
+        }
+>>>>>>> parent of 8626f84 (testing add)
     }
 
     private fun printFetchedData(exercisesList: List<Exercises>) {

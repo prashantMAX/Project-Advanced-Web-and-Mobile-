@@ -103,6 +103,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             Button(onClick = {
                 currentDay = currentDay.plusDays(1)
                 Log.d(TAG, "ExerciseScreen: ${exerciseviewModel.tokens}, $currentDay")
+                exerciseviewModel.fetchExercises(exerciseviewModel.tokens,currentDay.toString())
 
             }) {
                 Text("Volgende dag", color = Color.White, fontSize = 18.sp)
