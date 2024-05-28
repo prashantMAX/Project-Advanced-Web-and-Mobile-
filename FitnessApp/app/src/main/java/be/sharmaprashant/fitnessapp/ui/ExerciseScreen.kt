@@ -1,6 +1,8 @@
 package be.sharmaprashant.fitnessapp.ui
 
+import android.content.ContentValues.TAG
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -37,8 +39,9 @@ import java.util.Locale
 @Composable
 fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
-    val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-    val viewModel: ExerciseViewModel = viewModel()
+    val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
+    val exerciseviewModel: ExerciseViewModel = viewModel()
+
 
     Column(
         modifier = Modifier
@@ -90,7 +93,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>) 
         ) {
             Button(onClick = {
                 currentDay = currentDay.plusDays(1)
-                viewModel.fetchExercises("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVc2VySUQiOiIzIiwiaWF0IjoxNzE2ODk0MTMxLCJleHAiOjE3MTY4OTc3MzF9.QXoTRy_qE6lQY2FY4vef-DYgWhADXVteUBp4Jd2-Z_M", currentDay.toString())
+                Log.d(TAG, "ExerciseScreen: ${exerciseviewModel.tokens}, $currentDay")
+                exerciseviewModel.fetchExercises(exerciseviewModel.tokens,currentDay.toString())
+
             }) {
                 Text("Volgende dag", color = Color.White, fontSize = 18.sp)
             }

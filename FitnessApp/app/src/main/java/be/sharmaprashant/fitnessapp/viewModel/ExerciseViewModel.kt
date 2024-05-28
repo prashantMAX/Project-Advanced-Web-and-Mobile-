@@ -21,7 +21,9 @@ class ExerciseViewModel : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: MutableLiveData<List<Exercises>> get() = _exercises
     private var _x = "";
-    val tokens = _x
+    val tokens: String
+        get() = _x
+
 
     fun fetchExercises(token: String, date: String) {
 
@@ -80,8 +82,6 @@ class ExerciseViewModel : ViewModel() {
                 )
             )
         }
-
-
     }
 
     private fun printFetchedData(exercisesList: List<Exercises>) {
