@@ -1,7 +1,5 @@
 package be.sharmaprashant.fitnessapp.network
 
-import be.sharmaprashant.fitnessapp.data.Exercises
-import be.sharmaprashant.fitnessapp.data.UserProfile
 import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -9,7 +7,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import java.util.Date
 
 object RetrofitClient {
     private const val BASE_URL = "https://www.gauravghimire.be/API_Fitness/api/"
@@ -36,9 +33,12 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun getExercise(@Body request: TokenRequest): Response<JsonObject>
 
-    @POST("Test.php")
+    @POST("AddExercises.php")
     @Headers("Content-Type: application/json")
-    suspend fun getTest(@Body request: ExercisesRequest): Response<JsonObject>
+    suspend fun AddExercise(@Body request: AddExerciseRequest): Response<JsonObject>
+
+
+
 }
 
 data class LoginResponse(
@@ -56,7 +56,8 @@ data class TokenRequest(
     val token: String
 )
 
-data class ExercisesRequest(
+data class AddExerciseRequest(
     val token: String,
-    val date: String
-)
+    val exercise_name: String,
+    val calories_per_rep: Double
+    )

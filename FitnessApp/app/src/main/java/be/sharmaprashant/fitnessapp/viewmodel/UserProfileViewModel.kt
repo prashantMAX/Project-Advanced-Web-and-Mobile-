@@ -22,6 +22,7 @@ class UserProfileViewModel : ViewModel() {
                 val response: Response<JsonObject> = RetrofitClient.apiService.getUserData(TokenRequest(token))
                 if (response.isSuccessful) {
                     val body = response.body()
+
                     body?.let {
                         if (it.get("success").asBoolean) {
                             val userProfileJson = it.getAsJsonObject("user_profile")

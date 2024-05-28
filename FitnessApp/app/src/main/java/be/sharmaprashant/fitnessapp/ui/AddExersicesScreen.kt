@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.network.AddExerciseRequest
+import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 
 @Composable
@@ -31,11 +33,7 @@ fun AddExerciseScreen(navController: NavHostController, viewModel: ExerciseViewM
                 .fillMaxWidth()
                 .padding(32.dp)  // Provide some padding around the column
         ) {
-            TextField(
-                value = exerciseId,
-                onValueChange = { exerciseId = it },
-                label = { Text("Exercise ID") }
-            )
+
             Spacer(modifier = Modifier.height(16.dp))  // Space between TextField components
             TextField(
                 value = exerciseName,
@@ -43,6 +41,7 @@ fun AddExerciseScreen(navController: NavHostController, viewModel: ExerciseViewM
                 label = { Text("Exercise Name") }
             )
             Spacer(modifier = Modifier.height(16.dp))
+
             TextField(
                 value = caloriesPerRep,
                 onValueChange = { caloriesPerRep = it },
@@ -50,6 +49,12 @@ fun AddExerciseScreen(navController: NavHostController, viewModel: ExerciseViewM
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = {
+
+                val caloriesPerRepDouble = caloriesPerRep.toDouble()
+                viewModel.addExercises(exerciseName,caloriesPerRepDouble)
+                navController.navigate("home")
+
+
 
             }) {
                 Text("Add Exercise")
