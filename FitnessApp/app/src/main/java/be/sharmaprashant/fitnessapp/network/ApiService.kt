@@ -33,9 +33,9 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun getExercise(@Body request: ExercisesRequest): Response<JsonObject>
 
-    @POST("AddExercises.php")
+    @POST("TestAdd.php")
     @Headers("Content-Type: application/json")
-    suspend fun AddExercise(@Body request: AddExerciseRequest): Response<JsonObject>
+    suspend fun addExercise(@Body request: AddExerciseRequest): Response<JsonObject>
 
     @POST("GetNutrition.php")
     @Headers("Content-Type: application/json")

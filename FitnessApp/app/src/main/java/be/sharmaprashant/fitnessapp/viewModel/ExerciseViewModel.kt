@@ -13,84 +13,90 @@ import be.sharmaprashant.fitnessapp.network.TokenRequest
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class ExerciseViewModel : ViewModel() {
     private val TAG = "ExerciseViewModel"
 
     private val _exercises = MutableLiveData<List<Exercises>>()
-    val exercises: MutableLiveData<List<Exercises>> get() = _exercises
-    private var _x = "";
-    val tokens = _x;
+    val exercises: LiveData<List<Exercises>> get() = _exercises
 
+    var token: String? = null
 
     fun fetchExercises(token: String, date: String) {
+        this.token = token
 
-        _x = token;
         viewModelScope.launch {
+            Log.d(TAG, "Fetching exercises with token: $token")
             try {
-                Log.d(TAG, "Fetching exercises")
                 val response: Response<JsonObject> = RetrofitClient.apiService.getExercise(
                     ExercisesRequest(token, date)
                 )
                 if (response.isSuccessful) {
-                    Log.d(TAG, "Response successful: $response")
                     val body = response.body()
-                    if (body != null) {
-                        if (body.get("success").asBoolean) {
-                            Log.d(TAG, "Parsing exercises")
-                            val exercisesJson = body.getAsJsonArray("exercises")
-                            val exercisesList = mutableListOf<Exercises>()
-                            exercisesJson.forEach { exerciseElement ->
-                                val exerciseObject = exerciseElement.asJsonObject
-                                val exercises = Exercises(
-                                    userId = exerciseObject.get("userId").asInt,
-                                    exercise_id = exerciseObject.get("exercise_id").asInt,
-                                    exercise_name = exerciseObject.get("exercise_name").asString,
-                                    calories_per_rep = exerciseObject.get("calories_per_rep").asDouble,
-                                    date = exerciseObject.get("date_id").asInt
-                                )
-                                exercisesList.add(exercises)
-                            }
-                            _exercises.value = exercisesList
-                            Log.d(TAG, "Exercises parsed: $exercisesList")
-                            printFetchedData(exercisesList)
-                        } else {
-                            Log.e(TAG, "API success flag is false")
+                    if (body != null && body.get("success").asBoolean) {
+                        val exercisesJson = body.getAsJsonArray("exercises")
+                        val exercisesList = mutableListOf<Exercises>()
+                        exercisesJson.forEach { exerciseElement ->
+                            val exerciseObject = exerciseElement.asJsonObject
+                            val exercise = Exercises(
+                                userId = exerciseObject.get("userId").asInt,
+                                exercise_id = exerciseObject.get("exercise_id").asInt,
+                                exercise_name = exerciseObject.get("exercise_name").asString,
+                                calories_per_rep = exerciseObject.get("calories_per_rep").asDouble,
+                                date = exerciseObject.get("date_id").asInt
+                            )
+                            exercisesList.add(exercise)
                         }
+                        _exercises.value = exercisesList
                     } else {
-                        Log.e(TAG, "Response body is null")
+                        Log.e(TAG, "API success flag is false")
                     }
                 } else {
                     Log.e(TAG, "Unsuccessful response: ${response.code()}")
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Exception: ${e.message}", e)
-                // Handle the exception
             }
         }
     }
 
     fun addExercises(exerciseName: String, caloriesPerRep: Double) {
-        Log.d(TAG, "Adding exercise $tokens")
-        Log.d(TAG, "Adding exercise $exerciseName")
-        Log.d(TAG, "Adding exercise $caloriesPerRep")
-
+        val token = this.token
+        if (token == null) {
+            Log.e(TAG, "Token is null, cannot add exercise")
+            return
+        }
         viewModelScope.launch {
-            RetrofitClient.apiService.AddExercise(
-                AddExerciseRequest(
-                    tokens,
-                    exerciseName,
-                    caloriesPerRep
+            try {
+                Log.d(TAG, "Adding exercise with token: $token")
+                val response = RetrofitClient.apiService.addExercise(
+                    AddExerciseRequest(
+                        token,
+                        exerciseName,
+                        caloriesPerRep
+                    )
                 )
-            )
+                if (response.isSuccessful) {
+                    Log.d(TAG, "Exercise added successfully")
+                    // Fetch exercises after adding a new one
+                    fetchExercises(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
+                } else {
+                    Log.e(TAG, "Failed to add exercise: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception: ${e.message}", e)
+            }
         }
     }
 
     private fun printFetchedData(exercisesList: List<Exercises>) {
         Log.d(TAG, "Fetched exercises:")
-        exercisesList.forEachIndexed { index, exercises ->
-            Log.d(TAG, "Exercise ${index + 1}: $exercises")
+        exercisesList.forEachIndexed { index, exercise ->
+            Log.d(TAG, "Exercise ${index + 1}: $exercise")
         }
     }
 }
+

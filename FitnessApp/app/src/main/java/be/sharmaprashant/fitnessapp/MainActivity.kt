@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,6 +25,9 @@ import be.sharmaprashant.fitnessapp.ui.theme.FitnessAppTheme
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 import be.sharmaprashant.fitnessapp.viewModel.LoginViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     private val userProfileViewModel: LoginViewModel by viewModels()
@@ -40,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     val navController: NavHostController = rememberNavController()
                     NavHost(navController, startDestination = "login") {
                         composable("login") {
-                            LoginScreen(navController, userProfileViewModel,exerciseViewModel, foodViewModel)
+                            LoginScreen(navController, userProfileViewModel, exerciseViewModel, foodViewModel)
                         }
                         composable("accountInfo") {
                             val userProfile = userProfileViewModel.userProfile.value
@@ -49,29 +53,32 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         composable("addExerciseScreen") {
-                            AddExerciseScreen(navController = navController)
+                            AddExerciseScreen(navController = navController, exerciseViewModel) {
+                                exerciseViewModel.fetchExercises(
+                                    exerciseViewModel.token ?: "",
+                                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                                )
+                            }
                         }
                         composable("addFoodScreen") {
                             AddFoodScreen(navController = navController)
                         }
                         composable("exercise") {
-                            val exercise = exerciseViewModel.exercises.value
-                            val food = foodViewModel.exercises.value
+                            val exercise = exerciseViewModel.exercises.observeAsState().value
+                            val food = foodViewModel.exercises.observeAsState().value
 
-                            if (exercise != null) {
-                                if (food != null) {
-                                    ExerciseScreen(
-                                        exercise = exercise,
-                                        navController = navController,
-                                        food = food
-                                    )
-                                }
+                            if (exercise != null && food != null) {
+                                ExerciseScreen(
+                                    exercise = exercise,
+                                    navController = navController,
+                                    food = food
+                                )
                             } else {
                                 Text("Error: Exercise or food data is missing.")
                             }
                         }
                         composable("home") {
-                            val userProfile = userProfileViewModel.userProfile.value
+                            val userProfile = userProfileViewModel.userProfile.observeAsState().value
                             userProfile?.let {
                                 HomePage(navController = navController, userProfile = it)
                             }
@@ -81,4 +88,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
