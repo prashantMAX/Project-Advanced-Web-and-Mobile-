@@ -69,10 +69,12 @@ class ExerciseViewModel : ViewModel() {
 
      fun addExercises(exerciseName: String, caloriesPerRep: Double){
          viewModelScope.launch {
+             Log.e(TAG, "Unsuccessful response: ${tokens}")
+             Log.e(TAG, "Unsuccessful response: ${exerciseName}")
+             Log.e(TAG, "Unsuccessful response: ${caloriesPerRep}")
+
              RetrofitClient.apiService.AddExercise(AddExerciseRequest( tokens, exerciseName,caloriesPerRep))
          }
-
-
     }
 
     private fun printFetchedData(exercisesList: List<Exercises>) {
