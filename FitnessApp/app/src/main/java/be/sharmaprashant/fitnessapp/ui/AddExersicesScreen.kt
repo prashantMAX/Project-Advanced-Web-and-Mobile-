@@ -72,7 +72,6 @@ fun AddExerciseScreen(
                 }
                 Button(onClick = {
                     val caloriesPerRepDouble = caloriesPerRep.toDoubleOrNull()
-                    println("New Date Selected: $exerciseDate")
                     if (caloriesPerRepDouble != null) {
                         viewModel.addExercises(
                             exerciseName,

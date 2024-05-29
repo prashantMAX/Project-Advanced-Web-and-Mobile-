@@ -45,12 +45,14 @@ class FoodViewModel : ViewModel() {
                                     userId = foodObject.get("userId").asInt,
                                     foodID = foodObject.get("FoodID").asInt,
                                     foodName = foodObject.get("FoodName").asString,
-                                    caloriesPerServing = foodObject.get("CaloriesPerServing").asInt,
+                                    caloriesPerServing = foodObject.get("CaloriesPerServing").asDouble,
                                     proteinPerServing = foodObject.get("ProteinPerServing").asDouble,
                                     carbohydratesPerServing = foodObject.get("CarbohydratesPerServing").asDouble,
                                     fatPerServing = foodObject.get("FatPerServing").asDouble,
                                     date = foodObject.get("date_id").asInt
                                 )
+                                Log.d(TAG, "Request: ${response.body()}")
+
                                 foodList.add(foods)
                             }
                             _foods.value = foodList
@@ -70,7 +72,7 @@ class FoodViewModel : ViewModel() {
             }
         }
     }
-    fun addFood(foodName: String, caloriesPerServing: Int, proteinPerServing: Double, carbohydratesPerServing: Double, fatPerServing: Double) {
+    fun addFood(foodName: String, caloriesPerServing: Double, proteinPerServing: Double, carbohydratesPerServing: Double, fatPerServing: Double, date: String) {
         val token = this.token
         if (token == null) {
             Log.e(TAG, "Token is null, cannot add food")
@@ -79,6 +81,17 @@ class FoodViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.d(TAG, "Adding food with token: $token")
+                Log.d(TAG, "Adding food with date: $date")
+
+                Log.d(TAG, "Adding food with food: $foodName")
+
+                Log.d(TAG, "Adding food with calories: $caloriesPerServing")
+
+                Log.d(TAG, "Adding food with protien: $proteinPerServing")
+
+                Log.d(TAG, "Adding food with carb: $carbohydratesPerServing")
+                Log.d(TAG, "Adding food with fat: $fatPerServing")
+
                 val response = RetrofitClient.apiService.addFood(
                     AddFoodRequest(
                         token,
@@ -86,12 +99,12 @@ class FoodViewModel : ViewModel() {
                         caloriesPerServing,
                         proteinPerServing,
                         carbohydratesPerServing,
-                        fatPerServing
+                        fatPerServing,
+                        date
                     )
                 )
                 if (response.isSuccessful) {
                     Log.d(TAG, "Food added successfully")
-                    // Fetch food again to update the list after adding a new item
                     fetchFood(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
                 } else {
                     Log.e(TAG, "Failed to add food: ${response.code()}")

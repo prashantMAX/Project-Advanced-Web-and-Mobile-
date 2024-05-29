@@ -4,7 +4,7 @@ data class Food (
     val userId: Int,
     val foodID: Int,
     val foodName: String,
-    val caloriesPerServing: Int,
+    val caloriesPerServing: Double,
     val proteinPerServing: Double,
     val carbohydratesPerServing: Double,
     val fatPerServing: Double,

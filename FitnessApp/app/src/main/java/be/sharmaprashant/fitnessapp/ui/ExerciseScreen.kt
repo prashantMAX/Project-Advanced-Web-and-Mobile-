@@ -95,7 +95,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             ) {
                 Text("Food", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
                 Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
-                Button(onClick = { navController.navigate("AddFoodScreen") }) {
+                Button(onClick = {
+                    navController.navigate("AddFoodScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
+                }) {
                     Icon(Icons.Filled.Add, contentDescription = "Add Food")
                 }
             }
@@ -192,7 +194,7 @@ fun ExerciseScreenPreview() {
         Exercises(1, 3, "Squat", 0.6,2)
     )
     val dummyFoods = listOf(
-        Food(userId=1, foodID = 2, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2),
-        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2)    )
+        Food(userId=1, foodID = 2, foodName = "Apple", caloriesPerServing = 52.0, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2),
+        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52.0, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2)    )
     ExerciseScreen(navController = navController, exercise = sampleExercises, food = dummyFoods)
 }

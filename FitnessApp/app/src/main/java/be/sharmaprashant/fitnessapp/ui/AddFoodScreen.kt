@@ -1,6 +1,10 @@
 package be.sharmaprashant.fitnessapp.ui
 
+import android.app.DatePickerDialog
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -8,19 +12,26 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddFoodScreen(
     navController: NavHostController,
     viewModel: FoodViewModel = viewModel(),
+    initialDate: String,
     onFoodAdded: () -> Unit
 ) {
+    val initialLocalDate = LocalDate.parse(initialDate, DateTimeFormatter.ISO_LOCAL_DATE)
+    var foodDate by remember { mutableStateOf(initialLocalDate) }
     var foodName by remember { mutableStateOf("") }
     var caloriesPerServing by remember { mutableStateOf("") }
     var proteinPerServing by remember { mutableStateOf("") }
@@ -35,6 +46,9 @@ fun AddFoodScreen(
                 .fillMaxWidth()
                 .padding(32.dp)
         ) {
+            ShowDatePickers(foodDate) { selectedDate ->
+                foodDate = selectedDate
+            }
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 value = foodName,
@@ -67,12 +81,18 @@ fun AddFoodScreen(
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = {
-                val calories = caloriesPerServing.toInt()
-                val protein = proteinPerServing.toDouble()
-                val carbs = carbohydratesPerServing.toDouble()
-                val fat = fatPerServing.toDouble()
-                if(calories != null || protein != null || carbs != null || fat != null) {
-                    viewModel.addFood(foodName, calories, protein, carbs, fat)
+                val calories = caloriesPerServing.toDoubleOrNull()
+                val protein = proteinPerServing.toDoubleOrNull()
+                val carbs = carbohydratesPerServing.toDoubleOrNull()
+                val fat = fatPerServing.toDoubleOrNull()
+                if (calories != null) {
+                    if (protein != null) {
+                        if (carbs != null) {
+                            if (fat != null) {
+                                viewModel.addFood(foodName, calories, protein, carbs, fat, foodDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                            }
+                        }
+                    }
                     onFoodAdded()
                     navController.navigate("home")
                 }else{
@@ -89,9 +109,43 @@ fun AddFoodScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun ShowDatePickers(currentDate: LocalDate, onDateSelected: (LocalDate) -> Unit) {
+    val context = LocalContext.current
+    val showDialog = remember { mutableStateOf(false) }
+
+    if (showDialog.value) {
+        DatePickerDialog(
+            context,
+            { _, year, month, day ->
+                val newDate = LocalDate.of(year, month + 1, day)
+                showDialog.value = false
+                onDateSelected(newDate)
+                println("New Date Selected: $newDate")
+            },
+            currentDate.year,
+            currentDate.monthValue - 1,
+            currentDate.dayOfMonth
+        ).show()
+    }
+
+    Button(
+        onClick = { showDialog.value = true },
+        modifier = Modifier.fillMaxWidth().padding(25.dp),
+        shape = RoundedCornerShape(2.dp)
+    ) {
+        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
+    }
+}
+
+
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun AddFoodScreenPreview() {
     val navController = rememberNavController()
-    AddFoodScreen(navController = navController, onFoodAdded = {})
+    val today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
+    AddFoodScreen(navController = navController, onFoodAdded = {}, initialDate = today)
 }
