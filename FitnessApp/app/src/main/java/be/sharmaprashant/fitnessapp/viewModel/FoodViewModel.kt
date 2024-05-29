@@ -53,6 +53,7 @@ class FoodViewModel : ViewModel() {
                                 )
                                 Log.d(TAG, "Request: ${response.body()}")
 
+
                                 foodList.add(foods)
                             }
                             _foods.value = foodList
@@ -91,6 +92,7 @@ class FoodViewModel : ViewModel() {
 
                 Log.d(TAG, "Adding food with carb: $carbohydratesPerServing")
                 Log.d(TAG, "Adding food with fat: $fatPerServing")
+                Log.d(TAG, "Adding food with date: $date")
 
                 val response = RetrofitClient.apiService.addFood(
                     AddFoodRequest(

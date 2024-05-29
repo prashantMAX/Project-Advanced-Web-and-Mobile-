@@ -75,10 +75,10 @@ data class AddExerciseRequest(
 
 data class AddFoodRequest(
     val token: String,
-    val foodName: String,
-    val caloriesPerServing: Double,
-    val proteinPerServing: Double,
-    val carbohydratesPerServing: Double,
-    val fatPerServing: Double,
+    val food_name: String,
+    val calories_per_serving: Double,
+    val protein_per_serving: Double,
+    val carbohydrates_per_serving: Double,
+    val fat_per_serving: Double,
     val date: String
 )
