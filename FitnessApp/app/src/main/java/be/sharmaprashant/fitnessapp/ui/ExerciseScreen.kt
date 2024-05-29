@@ -69,7 +69,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             ) {
                 Text("Exercises", fontSize = 18.sp, modifier = Modifier.border(1.dp, Color.Black))
                 Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
-                Button(onClick = { navController.navigate("addExerciseScreen") }) {
+                Button(onClick = {
+                    navController.navigate("addExerciseScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
+                }) {
                     Icon(Icons.Filled.Add, contentDescription = "Add Exercise")
                 }
             }
@@ -108,20 +110,41 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             }
         }
 
-        Button(
-            onClick = {
-                currentDay = currentDay.plusDays(1)
-                Log.d("ExerciseScreen", "Current Day: ${exerciseviewModel.token}")
-                exerciseviewModel.token?.let {
-                    exerciseviewModel.fetchExercises(it, currentDay.toString())
-                }
-                foodviewModel.token?.let {
-                    foodviewModel.fetchFood(it, currentDay.toString())
-                }
-            },
-            modifier = Modifier.align(Alignment.End)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Next Day", color = Color.White, fontSize = 18.sp)
+            Button(
+                onClick = {
+                    currentDay = currentDay.minusDays(1)
+                    Log.d(TAG, "Previous Day: ${currentDay}")
+                    exerciseviewModel.token?.let {
+                        exerciseviewModel.fetchExercises(it, currentDay.toString())
+                    }
+                    foodviewModel.token?.let {
+                        foodviewModel.fetchFood(it, currentDay.toString())
+                    }
+                }
+            ) {
+                Text("Previous Day", color = Color.White, fontSize = 18.sp)
+            }
+
+            Button(
+                onClick = {
+                    currentDay = currentDay.plusDays(1)
+                    Log.d(TAG, "Next Day: ${currentDay}")
+                    exerciseviewModel.token?.let {
+                        exerciseviewModel.fetchExercises(it, currentDay.toString())
+                    }
+                    foodviewModel.token?.let {
+                        foodviewModel.fetchFood(it, currentDay.toString())
+                    }
+                }
+            ) {
+                Text("Next Day", color = Color.White, fontSize = 18.sp)
+            }
         }
     }
 }

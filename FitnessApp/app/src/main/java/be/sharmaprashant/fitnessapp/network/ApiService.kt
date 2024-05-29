@@ -33,7 +33,7 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun getExercise(@Body request: ExercisesAndFoodRequest): Response<JsonObject>
 
-    @POST("TestAdd.php")
+    @POST("AddExercises.php")
     @Headers("Content-Type: application/json")
     suspend fun addExercise(@Body request: AddExerciseRequest): Response<JsonObject>
 
@@ -68,7 +68,8 @@ data class ExercisesAndFoodRequest(
 data class AddExerciseRequest(
     val token: String,
     val exercise_name: String,
-    val calories_per_rep: Double
+    val calories_per_rep: Double,
+    val date: String
 )
 
 data class AddFoodRequest(

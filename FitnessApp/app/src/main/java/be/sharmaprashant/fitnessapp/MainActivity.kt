@@ -52,14 +52,18 @@ class MainActivity : ComponentActivity() {
                                 AccountInfoScreen(userProfile = it, navController)
                             }
                         }
-                        composable("addExerciseScreen") {
-                            AddExerciseScreen(navController = navController, exerciseViewModel) {
-                                exerciseViewModel.fetchExercises(
-                                    exerciseViewModel.token ?: "",
-                                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                                )
-                            }
+                        composable("addExerciseScreen/{date}") { backStackEntry ->
+                            // Extract the date from the navigation arguments
+                            val date = backStackEntry.arguments?.getString("date") ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                            AddExerciseScreen(
+                                navController = navController,
+                                viewModel = exerciseViewModel,
+                                initialDate = date,
+                                onExerciseAdded = {
+                                }
+                            )
                         }
+
                         composable("addFoodScreen") {
                             AddFoodScreen(navController = navController, foodViewModel){
                                 foodViewModel.fetchFood(

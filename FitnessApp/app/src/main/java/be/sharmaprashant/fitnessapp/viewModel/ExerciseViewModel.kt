@@ -63,7 +63,7 @@ class ExerciseViewModel : ViewModel() {
         }
     }
 
-    fun addExercises(exerciseName: String, caloriesPerRep: Double) {
+    fun addExercises(exerciseName: String, caloriesPerRep: Double, date: String) {
         val token = this.token
         if (token == null) {
             Log.e(TAG, "Token is null, cannot add exercise")
@@ -72,11 +72,14 @@ class ExerciseViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.d(TAG, "Adding exercise with token: $token")
+                Log.d(TAG, "Adding exercise with token: $date")
+
                 val response = RetrofitClient.apiService.addExercise(
                     AddExerciseRequest(
                         token,
                         exerciseName,
-                        caloriesPerRep
+                        caloriesPerRep,
+                        date
                     )
                 )
                 if (response.isSuccessful) {
@@ -89,13 +92,6 @@ class ExerciseViewModel : ViewModel() {
             } catch (e: Exception) {
                 Log.e(TAG, "Exception: ${e.message}", e)
             }
-        }
-    }
-
-    private fun printFetchedData(exercisesList: List<Exercises>) {
-        Log.d(TAG, "Fetched exercises:")
-        exercisesList.forEachIndexed { index, exercise ->
-            Log.d(TAG, "Exercise ${index + 1}: $exercise")
         }
     }
 }
