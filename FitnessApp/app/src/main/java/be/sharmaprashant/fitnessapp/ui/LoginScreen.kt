@@ -1,13 +1,21 @@
 package be.sharmaprashant.fitnessapp.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.AutofillType
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -15,6 +23,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.R
 import be.sharmaprashant.fitnessapp.network.LoginRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
@@ -38,21 +47,36 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.fitness),
+            contentDescription = "App Logo",
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+
         TextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text("Username") }
+            label = { Text("Username") },
+            singleLine = true,
+            leadingIcon = {Icon(Icons.Filled.Email, contentDescription = "Email Icon")},
+            modifier = Modifier.fillMaxWidth()
+
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = password,
             onValueChange = { password = it },
             label = { Text("Password") },
+            singleLine = true,
+            leadingIcon = {Icon(Icons.Filled.Lock, contentDescription = "Lock Icon")},
+            modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Button(onClick = {
             coroutineScope.launch {
                 try {

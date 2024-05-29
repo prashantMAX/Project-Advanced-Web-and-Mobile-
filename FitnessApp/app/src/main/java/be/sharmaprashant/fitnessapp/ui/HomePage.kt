@@ -1,6 +1,7 @@
 package be.sharmaprashant.fitnessapp.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,22 +32,57 @@ import be.sharmaprashant.fitnessapp.data.UserProfile
 fun HomePage(navController: NavHostController, userProfile: UserProfile) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.app_name))},
+            CustomTopAppBarWithImage(
+                title = stringResource(R.string.app_name),
+                backgroundImagePainter = painterResource(R.drawable.fitness)
             )
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
-                .fillMaxSize(),
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(Modifier.height(80.dp))
             ProfileSection(navController, userProfile)
             Spacer(Modifier.height(20.dp))
             MenuItems(navController)
+        }
+    }
+}
+
+@Composable
+fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp) // You can adjust this height based on your design needs
+    ) {
+        Image(
+            painter = backgroundImagePainter,
+            contentDescription = "Background Image",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Row(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = Icons.Filled.Logout,
+                contentDescription = "Logout",
+                tint = MaterialTheme.colorScheme.onPrimary
+            )
         }
     }
 }
