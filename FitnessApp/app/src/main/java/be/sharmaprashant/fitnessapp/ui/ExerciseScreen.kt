@@ -33,9 +33,7 @@ import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.data.Food
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -121,7 +119,6 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             Button(
                 onClick = {
                     currentDay = currentDay.minusDays(1)
-                    Log.d(TAG, "Previous Day: ${currentDay}")
                     exerciseviewModel.token?.let {
                         exerciseviewModel.fetchExercises(it, currentDay.toString())
                     }
@@ -136,7 +133,6 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             Button(
                 onClick = {
                     currentDay = currentDay.plusDays(1)
-                    Log.d(TAG, "Next Day: ${currentDay}")
                     exerciseviewModel.token?.let {
                         exerciseviewModel.fetchExercises(it, currentDay.toString())
                     }

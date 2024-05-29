@@ -18,8 +18,6 @@ import java.util.Date
 import java.util.Locale
 
 class ExerciseViewModel : ViewModel() {
-    private val TAG = "ExerciseViewModel"
-
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: LiveData<List<Exercises>> get() = _exercises
 
@@ -29,7 +27,6 @@ class ExerciseViewModel : ViewModel() {
         this.token = token
 
         viewModelScope.launch {
-            Log.d(TAG, "Fetching exercises with token: $token")
             try {
                 val response: Response<JsonObject> = RetrofitClient.apiService.getExercise(
                     ExercisesAndFoodRequest(token, date)
@@ -52,13 +49,10 @@ class ExerciseViewModel : ViewModel() {
                         }
                         _exercises.value = exercisesList
                     } else {
-                        Log.e(TAG, "API success flag is false")
                     }
                 } else {
-                    Log.e(TAG, "Unsuccessful response: ${response.code()}")
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Exception: ${e.message}", e)
             }
         }
     }
@@ -66,14 +60,10 @@ class ExerciseViewModel : ViewModel() {
     fun addExercises(exerciseName: String, caloriesPerRep: Double, date: String) {
         val token = this.token
         if (token == null) {
-            Log.e(TAG, "Token is null, cannot add exercise")
             return
         }
         viewModelScope.launch {
             try {
-                Log.d(TAG, "Adding exercise with token: $token")
-                Log.d(TAG, "Adding exercise with token: $date")
-
                 val response = RetrofitClient.apiService.addExercise(
                     AddExerciseRequest(
                         token,
@@ -83,14 +73,10 @@ class ExerciseViewModel : ViewModel() {
                     )
                 )
                 if (response.isSuccessful) {
-                    Log.d(TAG, "Exercise added successfully")
-                    // Fetch exercises after adding a new one
                     fetchExercises(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
                 } else {
-                    Log.e(TAG, "Failed to add exercise: ${response.code()}")
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Exception: ${e.message}", e)
             }
         }
     }
