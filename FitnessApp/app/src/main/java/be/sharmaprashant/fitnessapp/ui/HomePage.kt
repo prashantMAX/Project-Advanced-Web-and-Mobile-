@@ -10,11 +10,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -27,65 +29,51 @@ import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.R
 import be.sharmaprashant.fitnessapp.data.UserProfile
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(navController: NavHostController, userProfile: UserProfile) {
     Scaffold(
         topBar = {
             CustomTopAppBarWithImage(
                 title = stringResource(R.string.app_name),
-                backgroundImagePainter = painterResource(R.drawable.fitness)
+                backgroundImagePainter = painterResource(R.drawable.backgrounf)
             )
         }
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
         ) {
-            Spacer(Modifier.height(80.dp))
-            ProfileSection(navController, userProfile)
-            Spacer(Modifier.height(20.dp))
-            MenuItems(navController)
+            Image(
+                painter = painterResource(R.drawable.backgroundd),
+                contentDescription = "Background Image",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .blur(10.dp),
+                contentScale = ContentScale.Crop
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f)) // Semi-transparent overlay
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(Modifier.height(80.dp))
+                    ProfileSection(navController, userProfile)
+                    Spacer(Modifier.height(20.dp))
+                    MenuItems(navController)
+                }
+            }
         }
     }
 }
 
-@Composable
-fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp) // You can adjust this height based on your design needs
-    ) {
-        Image(
-            painter = backgroundImagePainter,
-            contentDescription = "Background Image",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Row(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.weight(1f)
-            )
-            Icon(
-                imageVector = Icons.Filled.Logout,
-                contentDescription = "Logout",
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-    }
-}
+
 
 @Composable
 fun ProfileSection(navController: NavHostController, userProfile: UserProfile) {
@@ -97,21 +85,20 @@ fun ProfileSection(navController: NavHostController, userProfile: UserProfile) {
             .clickable { navController.navigate("accountInfo") }
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.profile),
             contentDescription = "Profile Picture",
             modifier = Modifier
-                .size(48.dp)
+                .size(80.dp)
                 .clip(CircleShape)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(userProfile.name)
-
+        Text(userProfile.name, color = Color.White)
     }
 }
 
 @Composable
 fun MenuItems(navController: NavHostController) {
-    val items = listOf("Home", "Exercise Planning")
+    val items = listOf("Home", "Exercise Planning", "Overview", "Log out")
     LazyColumn {
         items(items) { item ->
             MenuItem(item, navController)
@@ -128,8 +115,15 @@ fun MenuItem(item: String, navController: NavHostController) {
             .clickable { navigateToScreen(item, navController) }
             .padding(16.dp)
     ) {
-        Text(item, modifier = Modifier.weight(1f))
-        Icon(Icons.Filled.ArrowForward, contentDescription = "Go to $item")
+        Icon(
+            imageVector = Icons.Default.Menu,
+            contentDescription = "Menu",
+            modifier = Modifier.size(24.dp),
+            tint = Color.White // Ensure icon is white for contrast
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(item, modifier = Modifier.weight(1f), color = Color.White) // Ensure text is white for contrast
+        Icon(Icons.Filled.ArrowForward, contentDescription = "Go to $item", tint = Color.White) // Ensure icon is white for contrast
     }
 }
 
@@ -147,7 +141,7 @@ fun PreviewHomePage() {
     val userProfile = UserProfile(
         profileID = 1,
         userID = 1,
-        name = "Sharmaprashant",
+        name = "Test",
         age = 25,
         weight = 70.0f,
         height = 175.0f,

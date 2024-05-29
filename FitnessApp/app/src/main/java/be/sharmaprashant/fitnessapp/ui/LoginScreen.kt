@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.AutofillType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -51,9 +52,13 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.fitness),
+            painter = painterResource(id = R.drawable.backgrounf),
             contentDescription = "App Logo",
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+                .aspectRatio(16 / 9f), // Maintain aspect ratio
+            contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(32.dp))
 
