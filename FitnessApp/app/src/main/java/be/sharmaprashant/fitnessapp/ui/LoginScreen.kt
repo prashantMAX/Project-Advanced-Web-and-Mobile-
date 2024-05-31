@@ -52,12 +52,12 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.backgrounf),
+            painter = painterResource(id = R.drawable.backgroundd),
             contentDescription = "App Logo",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
-                .aspectRatio(16 / 9f), // Maintain aspect ratio
+                .aspectRatio(16 / 9f),
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(32.dp))

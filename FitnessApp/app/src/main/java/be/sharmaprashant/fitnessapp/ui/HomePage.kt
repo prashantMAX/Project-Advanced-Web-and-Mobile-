@@ -31,47 +31,25 @@ import be.sharmaprashant.fitnessapp.data.UserProfile
 
 @Composable
 fun HomePage(navController: NavHostController, userProfile: UserProfile) {
-    Scaffold(
-        topBar = {
-            CustomTopAppBarWithImage(
-                title = stringResource(R.string.app_name),
-                backgroundImagePainter = painterResource(R.drawable.backgrounf)
-            )
-        }
+    PageBackground(
+        title = stringResource(R.string.app_name),
+        backgroundImagePainter = painterResource(R.drawable.backgroundd)
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(R.drawable.backgroundd),
-                contentDescription = "Background Image",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .blur(10.dp),
-                contentScale = ContentScale.Crop
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f)) // Semi-transparent overlay
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(Modifier.height(80.dp))
-                    ProfileSection(navController, userProfile)
-                    Spacer(Modifier.height(20.dp))
-                    MenuItems(navController)
-                }
-            }
+            Spacer(Modifier.height(80.dp))
+            ProfileSection(navController, userProfile)
+            Spacer(Modifier.height(20.dp))
+            MenuItems(navController)
         }
     }
 }
+
 
 
 
@@ -119,11 +97,11 @@ fun MenuItem(item: String, navController: NavHostController) {
             imageVector = Icons.Default.Menu,
             contentDescription = "Menu",
             modifier = Modifier.size(24.dp),
-            tint = Color.White // Ensure icon is white for contrast
+            tint = Color.White
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(item, modifier = Modifier.weight(1f), color = Color.White) // Ensure text is white for contrast
-        Icon(Icons.Filled.ArrowForward, contentDescription = "Go to $item", tint = Color.White) // Ensure icon is white for contrast
+        Text(item, modifier = Modifier.weight(1f), color = Color.White)
+        Icon(Icons.Filled.ArrowForward, contentDescription = "Go to $item", tint = Color.White)
     }
 }
 

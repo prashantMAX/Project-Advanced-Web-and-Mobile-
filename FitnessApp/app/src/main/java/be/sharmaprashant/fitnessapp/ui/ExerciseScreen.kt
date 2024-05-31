@@ -40,147 +40,126 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
 
-    Scaffold(
-        topBar = {
-            CustomTopAppBarWithImage(
-                title = stringResource(R.string.app_name),
-                backgroundImagePainter = painterResource(R.drawable.backgrounf)
-            )
-        }
+    PageBackground(
+        title = stringResource(R.string.app_name),
+        backgroundImagePainter = painterResource(R.drawable.backgroundd)
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(
-                painter = painterResource(R.drawable.backgroundd),
-                contentDescription = "Background Image",
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .blur(3.dp),
-                contentScale = ContentScale.Crop
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(
+                Text(formattedDate, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Button(onClick = { }) {
+                    Text("Rest day?", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(innerPadding)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceBetween
+                        .fillMaxWidth()
+                        .padding(8.dp)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(formattedDate, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                        Button(onClick = { }) {
-                            Text("Rest day?", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text("Exercises", fontSize = 18.sp, color = Color.White, modifier = Modifier)
+                    Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
+                    Button(onClick = {
+                        navController.navigate("addExerciseScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
+                    }) {
+                        Icon(Icons.Filled.Add, contentDescription = "Add Exercise")
+                    }
+                }
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .border(2.dp, Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                ) {
+                    items(exercise) { exercise ->
+                        ExerciseItem(exercise = exercise)
+                    }
+                }
+            }
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Text("Food", fontSize = 18.sp, color = Color.White, modifier = Modifier)
+                    Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
+                    Button(onClick = {
+                        navController.navigate("AddFoodScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
+                    }) {
+                        Icon(Icons.Filled.Add, contentDescription = "Add Food")
+                    }
+                }
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .border(2.dp, Color.White)
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                ) {
+                    items(food) { food ->
+                        FoodItem(food = food)
+                    }
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = {
+                        currentDay = currentDay.minusDays(1)
+                        exerciseviewModel.token?.let {
+                            exerciseviewModel.fetchExercises(it, currentDay.toString())
+                        }
+                        foodviewModel.token?.let {
+                            foodviewModel.fetchFood(it, currentDay.toString())
                         }
                     }
+                ) {
+                    Text("Previous Day", color = Color.White, fontSize = 18.sp)
+                }
 
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                        ) {
-                            Text("Exercises", fontSize = 18.sp, color = Color.White, modifier = Modifier)
-                            Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
-                            Button(onClick = {
-                                navController.navigate("addExerciseScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
-                            }) {
-                                Icon(Icons.Filled.Add, contentDescription = "Add Exercise")
-                            }
+                Button(
+                    onClick = {
+                        currentDay = currentDay.plusDays(1)
+                        exerciseviewModel.token?.let {
+                            exerciseviewModel.fetchExercises(it, currentDay.toString())
                         }
-                        LazyColumn(
-                            modifier = Modifier
-                                .weight(1f)
-                                .border(2.dp, Color.White)
-                                .padding(10.dp)
-                                .fillMaxWidth()
-                        ) {
-                            items(exercise) { exercise ->
-                                ExerciseItem(exercise = exercise)
-                            }
+                        foodviewModel.token?.let {
+                            foodviewModel.fetchFood(it, currentDay.toString())
                         }
                     }
-
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                        ) {
-                            Text("Food", fontSize = 18.sp, color = Color.White, modifier = Modifier)
-                            Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
-                            Button(onClick = {
-                                navController.navigate("AddFoodScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
-                            }) {
-                                Icon(Icons.Filled.Add, contentDescription = "Add Food")
-                            }
-                        }
-                        LazyColumn(
-                            modifier = Modifier
-                                .weight(1f)
-                                .border(2.dp, Color.White)
-                                .padding(10.dp)
-                                .fillMaxWidth()
-                        ) {
-                            items(food) { food ->
-                                FoodItem(food = food)
-                            }
-                        }
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Button(
-                            onClick = {
-                                currentDay = currentDay.minusDays(1)
-                                exerciseviewModel.token?.let {
-                                    exerciseviewModel.fetchExercises(it, currentDay.toString())
-                                }
-                                foodviewModel.token?.let {
-                                    foodviewModel.fetchFood(it, currentDay.toString())
-                                }
-                            }
-                        ) {
-                            Text("Previous Day", color = Color.White, fontSize = 18.sp)
-                        }
-
-                        Button(
-                            onClick = {
-                                currentDay = currentDay.plusDays(1)
-                                exerciseviewModel.token?.let {
-                                    exerciseviewModel.fetchExercises(it, currentDay.toString())
-                                }
-                                foodviewModel.token?.let {
-                                    foodviewModel.fetchFood(it, currentDay.toString())
-                                }
-                            }
-                        ) {
-                            Text("Next Day", color = Color.White, fontSize = 18.sp)
-                        }
-                    }
+                ) {
+                    Text("Next Day", color = Color.White, fontSize = 18.sp)
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun ExerciseItem(exercise: Exercises) {
