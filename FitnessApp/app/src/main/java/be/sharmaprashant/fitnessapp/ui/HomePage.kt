@@ -79,7 +79,7 @@ fun ProfileSection(navController: NavHostController, userProfile: UserProfile) {
 
 @Composable
 fun MenuItems(navController: NavHostController) {
-    val items = listOf("Home", "Exercise Planning", "Overview", "Log out")
+    val items = listOf("Home", "Exercise Planning", "Overview", "Log Out")
     LazyColumn {
         items(items) { item ->
             MenuItem(item, navController)
@@ -112,6 +112,8 @@ fun navigateToScreen(item: String, navController: NavHostController) {
     when (item) {
         "Home" -> navController.navigate("home")
         "Exercise Planning" -> navController.navigate("exercise")
+        "Overview" -> navController.navigate("overview")
+        "Log Out" -> navController.navigate("login")
     }
 }
 
