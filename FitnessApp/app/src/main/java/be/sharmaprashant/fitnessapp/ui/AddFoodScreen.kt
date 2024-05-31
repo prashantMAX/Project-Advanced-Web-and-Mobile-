@@ -61,14 +61,14 @@ fun AddFoodScreen(
                     .fillMaxWidth()
                     .padding(32.dp)
             ) {
-                ShowDatePickers(foodDate) { selectedDate ->
+                ShowDatePicker(foodDate) { selectedDate ->
                     foodDate = selectedDate
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = foodName,
                     onValueChange = { foodName = it },
-                    label = { Text("Food Name", style = MaterialTheme.typography.bodyLarge) }
+                    label = { Text("Food Name", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
@@ -77,7 +77,7 @@ fun AddFoodScreen(
                     label = {
                         Text(
                             "Calories per Serving",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 )
@@ -88,7 +88,7 @@ fun AddFoodScreen(
                     label = {
                         Text(
                             "Protein per Serving",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 )
@@ -99,7 +99,7 @@ fun AddFoodScreen(
                     label = {
                         Text(
                             "Carbohydrates per Serving",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 )
@@ -107,7 +107,7 @@ fun AddFoodScreen(
                 TextField(
                     value = fatPerServing,
                     onValueChange = { fatPerServing = it },
-                    label = { Text("Fat per Serving", style = MaterialTheme.typography.bodyLarge) }
+                    label = { Text("Fat per Serving", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 Row(
@@ -119,7 +119,7 @@ fun AddFoodScreen(
                     Button(onClick = {
                         navController.navigate("exercise")
                     }) {
-                        Text("Back", style = MaterialTheme.typography.bodyLarge)
+                        Text("Back", style = MaterialTheme.typography.bodyMedium)
                     }
                     Button(onClick = {
                         val calories = caloriesPerServing.toDoubleOrNull()
@@ -148,7 +148,7 @@ fun AddFoodScreen(
                                 "Please ensure all nutritional values are entered correctly"
                         }
                     }) {
-                        Text("Add Food", style = MaterialTheme.typography.bodyLarge)
+                        Text("Add Food", style = MaterialTheme.typography.bodyMedium)
                     }
                     errorMessage?.let {
                         Spacer(modifier = Modifier.height(8.dp))
@@ -160,35 +160,7 @@ fun AddFoodScreen(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun ShowDatePickers(currentDate: LocalDate, onDateSelected: (LocalDate) -> Unit) {
-    val context = LocalContext.current
-    val showDialog = remember { mutableStateOf(false) }
 
-    if (showDialog.value) {
-        DatePickerDialog(
-            context,
-            { _, year, month, day ->
-                val newDate = LocalDate.of(year, month + 1, day)
-                showDialog.value = false
-                onDateSelected(newDate)
-                println("New Date Selected: $newDate")
-            },
-            currentDate.year,
-            currentDate.monthValue - 1,
-            currentDate.dayOfMonth
-        ).show()
-    }
-
-    Button(
-        onClick = { showDialog.value = true },
-        modifier = Modifier.fillMaxWidth().padding(25.dp),
-        shape = RoundedCornerShape(2.dp)
-    ) {
-        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}", style = MaterialTheme.typography.bodyLarge)
-    }
-}
 
 
 

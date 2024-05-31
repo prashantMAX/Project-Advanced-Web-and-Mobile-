@@ -59,9 +59,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(formattedDate, style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
+                Text(formattedDate, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                 Button(onClick = { }) {
-                    Text("Rest day?", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Rest day?", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
 
@@ -74,7 +74,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    Text("Exercises", style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Exercises", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                     Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
                     Button(onClick = {
                         navController.navigate("addExerciseScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
@@ -106,7 +106,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    Text("Food", style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Food", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                     Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
                     Button(onClick = {
                         navController.navigate("AddFoodScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
@@ -146,7 +146,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         }
                     }
                 ) {
-                    Text("Previous Day", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Previous Day", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
                 }
 
                 Button(
@@ -160,7 +160,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         }
                     }
                 ) {
-                    Text("Next Day", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Next Day", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         }
@@ -175,9 +175,9 @@ fun ExerciseItem(exercise: Exercises) {
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        Text(text = exercise.exercise_name, style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = exercise.exercise_name, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = "Calories per rep: ${exercise.calories_per_rep}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Calories per rep: ${exercise.calories_per_rep}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
     }
 }
 
@@ -188,12 +188,12 @@ fun FoodItem(food: Food) {
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        Text(text = food.foodName, style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = food.foodName, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = "Calories per serving: ${food.caloriesPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
-        Text(text = "Protein per serving: ${food.proteinPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
-        Text(text = "Carbohydrates per serving: ${food.carbohydratesPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
-        Text(text = "Fat per serving: ${food.fatPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Calories per serving: ${food.caloriesPerServing}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Protein per serving: ${food.proteinPerServing}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Carbohydrates per serving: ${food.carbohydratesPerServing}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Fat per serving: ${food.fatPerServing}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
     }
 }
 

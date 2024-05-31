@@ -63,7 +63,7 @@ fun AccountInfoScreen(userProfile: UserProfile, navController: NavHostController
             Button(onClick = {
                 navController.navigate("home")
             }) {
-                Text("Back", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodyLarge,
+                Text("Back", color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.bodyLarge,
                 )
             }
         }

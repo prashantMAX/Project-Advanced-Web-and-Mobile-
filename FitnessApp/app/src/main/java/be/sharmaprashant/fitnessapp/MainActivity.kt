@@ -21,6 +21,7 @@ import be.sharmaprashant.fitnessapp.ui.ExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.HomePage
 import be.sharmaprashant.fitnessapp.ui.LoginScreen
 import be.sharmaprashant.fitnessapp.ui.AddFoodScreen
+import be.sharmaprashant.fitnessapp.ui.OverviewScreen
 import be.sharmaprashant.fitnessapp.ui.theme.FitnessAppTheme
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
@@ -84,6 +85,19 @@ class MainActivity : ComponentActivity() {
                                     food = food,
                                     exerciseviewModel = exerciseViewModel,
                                     foodviewModel = foodViewModel
+                                )
+                            } else {
+                                Text("Error: Exercise or food data is missing.")
+                            }
+                        }
+                        composable("overview") {
+                            val exercise = exerciseViewModel.exercises.observeAsState().value
+
+                            if (exercise != null ) {
+                                OverviewScreen(
+                                    exercise = exercise,
+                                    navController = navController,
+                                    exerciseviewModel = exerciseViewModel,
                                 )
                             } else {
                                 Text("Error: Exercise or food data is missing.")

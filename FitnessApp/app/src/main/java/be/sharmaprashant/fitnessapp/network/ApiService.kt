@@ -45,6 +45,10 @@ interface ApiService {
     @POST("GetNutrition.php")
     @Headers("Content-Type: application/json")
     suspend fun getNutrition(@Body request: ExercisesAndFoodRequest): Response<JsonObject>
+
+    @POST("Test.php")
+    @Headers("Content-Type: application/json")
+    suspend fun getExercisesPerDate(@Body request: ExercisesPerDateRequest): Response<JsonObject>
 }
 
 data class LoginResponse(
@@ -81,4 +85,8 @@ data class AddFoodRequest(
     val carbohydrates_per_serving: Double,
     val fat_per_serving: Double,
     val date: String
+)
+
+data class ExercisesPerDateRequest(
+    val token: String
 )

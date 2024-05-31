@@ -13,7 +13,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -66,13 +65,13 @@ fun AddExerciseScreen(
                 TextField(
                     value = exerciseName,
                     onValueChange = { exerciseName = it },
-                    label = { Text("Exercise Name", style = MaterialTheme.typography.bodyLarge) }
+                    label = { Text("Exercise Name", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = caloriesPerRep,
                     onValueChange = { caloriesPerRep = it },
-                    label = { Text("Calories per Rep", style = MaterialTheme.typography.bodyLarge) }
+                    label = { Text("Calories per Rep", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(35.dp))
                 Row(
@@ -84,7 +83,7 @@ fun AddExerciseScreen(
                     Button(onClick = {
                         navController.navigate("exercise")
                     }) {
-                        Text("Back", style = MaterialTheme.typography.bodyLarge)
+                        Text("Back", style = MaterialTheme.typography.bodyMedium)
                     }
                     Button(onClick = {
                         val caloriesPerRepDouble = caloriesPerRep.toDoubleOrNull()
@@ -100,7 +99,7 @@ fun AddExerciseScreen(
                             errorMessage = "Please enter a valid number for calories per rep"
                         }
                     }) {
-                        Text("Add Exercise", style = MaterialTheme.typography.bodyLarge)
+                        Text("Add Exercise", style = MaterialTheme.typography.bodyMedium)
                     }
                     errorMessage?.let {
                         Spacer(modifier = Modifier.height(8.dp))
@@ -113,36 +112,6 @@ fun AddExerciseScreen(
     }
 }
 
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun ShowDatePicker(currentDate: LocalDate, onDateSelected: (LocalDate) -> Unit) {
-    val context = LocalContext.current
-    val showDialog = remember { mutableStateOf(false) }
-
-    if (showDialog.value) {
-        DatePickerDialog(
-            context,
-            { _, year, month, day ->
-                val newDate = LocalDate.of(year, month + 1, day)
-                showDialog.value = false
-                onDateSelected(newDate)
-                println("New Date Selected: $newDate")
-            },
-            currentDate.year,
-            currentDate.monthValue - 1,
-            currentDate.dayOfMonth
-        ).show()
-    }
-
-    Button(
-        onClick = { showDialog.value = true },
-        modifier = Modifier.fillMaxWidth().padding(25.dp),
-        shape = RoundedCornerShape(2.dp)
-    ) {
-        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}", style = MaterialTheme.typography.bodyLarge)
-    }
-}
 
 
 

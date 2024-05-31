@@ -3,6 +3,7 @@ package be.sharmaprashant.fitnessapp.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -36,7 +37,8 @@ fun PageBackground(
                 ) {
                     CustomTopAppBarWithImage(
                         title = title,
-                        backgroundImagePainter = topBarImagePainer
+                        backgroundImagePainter = topBarImagePainer,
+                        navController = navController
                     )
                 }
                 Row(
@@ -83,7 +85,7 @@ fun PageBackground(
 }
 
 @Composable
-fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
+fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -105,7 +107,8 @@ fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 16.dp)
+                    .clickable { navController.navigate("home") },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(

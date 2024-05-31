@@ -94,6 +94,7 @@ fun LoginScreen(
                             viewModel.fetchUserProfile(token)
                             exerciseviewModel.fetchExercises(token, date)
                             foodviewModel.fetchFood(token, date)
+                            exerciseviewModel.fetchExercisesPerDay(token)
                             navController.navigate("home") {
                                 popUpTo("login") { inclusive = true }
                             }
