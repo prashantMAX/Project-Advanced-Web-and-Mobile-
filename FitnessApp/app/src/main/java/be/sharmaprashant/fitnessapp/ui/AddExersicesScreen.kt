@@ -3,6 +3,7 @@ package be.sharmaprashant.fitnessapp.ui
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -12,12 +13,16 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.R
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -36,62 +41,74 @@ fun AddExerciseScreen(
     var caloriesPerRep by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(R.drawable.exercise),
+            contentDescription = "Background Image",
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-        ) {
-            ShowDatePicker(exerciseDate) { selectedDate ->
-                exerciseDate = selectedDate
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-            TextField(
-                value = exerciseName,
-                onValueChange = { exerciseName = it },
-                label = { Text("Exercise Name") }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = caloriesPerRep,
-                onValueChange = { caloriesPerRep = it },
-                label = { Text("Calories per Rep") }
-            )
-            Spacer(modifier = Modifier.height(35.dp))
-            Row(
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(32.dp)
             ) {
-                Button(onClick = {
-                    navController.navigate("exercise")
-                }) {
-                    Text("Back")
+                ShowDatePicker(exerciseDate) { selectedDate ->
+                    exerciseDate = selectedDate
                 }
-                Button(onClick = {
-                    val caloriesPerRepDouble = caloriesPerRep.toDoubleOrNull()
-                    if (caloriesPerRepDouble != null) {
-                        viewModel.addExercises(
-                            exerciseName,
-                            caloriesPerRepDouble,
-                            exerciseDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
-                        )
-                        onExerciseAdded()
+                Spacer(modifier = Modifier.height(24.dp))
+                TextField(
+                    value = exerciseName,
+                    onValueChange = { exerciseName = it },
+                    label = { Text("Exercise Name", style = MaterialTheme.typography.bodyLarge) }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = caloriesPerRep,
+                    onValueChange = { caloriesPerRep = it },
+                    label = { Text("Calories per Rep", style = MaterialTheme.typography.bodyLarge) }
+                )
+                Spacer(modifier = Modifier.height(35.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(onClick = {
                         navController.navigate("exercise")
-                    } else {
-                        errorMessage = "Please enter a valid number for calories per rep"
+                    }) {
+                        Text("Back", style = MaterialTheme.typography.bodyLarge)
                     }
-                }) {
-                    Text("Add Exercise")
+                    Button(onClick = {
+                        val caloriesPerRepDouble = caloriesPerRep.toDoubleOrNull()
+                        if (caloriesPerRepDouble != null) {
+                            viewModel.addExercises(
+                                exerciseName,
+                                caloriesPerRepDouble,
+                                exerciseDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+                            )
+                            onExerciseAdded()
+                            navController.navigate("exercise")
+                        } else {
+                            errorMessage = "Please enter a valid number for calories per rep"
+                        }
+                    }) {
+                        Text("Add Exercise", style = MaterialTheme.typography.bodyLarge)
+                    }
+                    errorMessage?.let {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = it, color = MaterialTheme.colorScheme.error)
+                    }
                 }
-                errorMessage?.let {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = it, color = MaterialTheme.colorScheme.error)
-                }
-            }
 
+            }
         }
     }
 }
@@ -123,7 +140,7 @@ fun ShowDatePicker(currentDate: LocalDate, onDateSelected: (LocalDate) -> Unit) 
         modifier = Modifier.fillMaxWidth().padding(25.dp),
         shape = RoundedCornerShape(2.dp)
     ) {
-        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
+        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}", style = MaterialTheme.typography.bodyLarge)
     }
 }
 

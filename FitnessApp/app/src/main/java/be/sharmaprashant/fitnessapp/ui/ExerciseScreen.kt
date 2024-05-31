@@ -56,9 +56,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(formattedDate, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Text(formattedDate, style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
                 Button(onClick = { }) {
-                    Text("Rest day?", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text("Rest day?", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
 
@@ -71,7 +71,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    Text("Exercises", fontSize = 18.sp, color = Color.White, modifier = Modifier)
+                    Text("Exercises", style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
                     Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
                     Button(onClick = {
                         navController.navigate("addExerciseScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
@@ -101,7 +101,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    Text("Food", fontSize = 18.sp, color = Color.White, modifier = Modifier)
+                    Text("Food", style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
                     Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
                     Button(onClick = {
                         navController.navigate("AddFoodScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
@@ -139,7 +139,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         }
                     }
                 ) {
-                    Text("Previous Day", color = Color.White, fontSize = 18.sp)
+                    Text("Previous Day", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                 }
 
                 Button(
@@ -153,7 +153,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         }
                     }
                 ) {
-                    Text("Next Day", color = Color.White, fontSize = 18.sp)
+                    Text("Next Day", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         }
@@ -168,9 +168,9 @@ fun ExerciseItem(exercise: Exercises) {
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        Text(text = exercise.exercise_name, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+        Text(text = exercise.exercise_name, style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = "Calories per rep: ${exercise.calories_per_rep}", fontSize = 14.sp, color = Color.White)
+        Text(text = "Calories per rep: ${exercise.calories_per_rep}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
     }
 }
 
@@ -181,12 +181,12 @@ fun FoodItem(food: Food) {
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        Text(text = food.foodName, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+        Text(text = food.foodName, style = MaterialTheme.typography.displayMedium, color = MaterialTheme.colorScheme.onPrimary)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = "Calories per serving: ${food.caloriesPerServing}", fontSize = 14.sp, color = Color.White)
-        Text(text = "Protein per serving: ${food.proteinPerServing}", fontSize = 14.sp, color = Color.White)
-        Text(text = "Carbohydrates per serving: ${food.carbohydratesPerServing}", fontSize = 14.sp, color = Color.White)
-        Text(text = "Fat per serving: ${food.fatPerServing}", fontSize = 14.sp, color = Color.White)
+        Text(text = "Calories per serving: ${food.caloriesPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Protein per serving: ${food.proteinPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Carbohydrates per serving: ${food.carbohydratesPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Fat per serving: ${food.fatPerServing}", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
     }
 }
 

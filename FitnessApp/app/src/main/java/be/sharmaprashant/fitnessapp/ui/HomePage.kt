@@ -66,11 +66,12 @@ fun ProfileSection(navController: NavHostController, userProfile: UserProfile) {
             painter = painterResource(id = R.drawable.profile),
             contentDescription = "Profile Picture",
             modifier = Modifier
-                .size(80.dp)
-                .clip(CircleShape)
+                .size(100.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Inside
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(userProfile.name, color = Color.White)
+        Text(userProfile.name, color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.displayMedium)
     }
 }
 
@@ -97,11 +98,11 @@ fun MenuItem(item: String, navController: NavHostController) {
             imageVector = Icons.Default.Menu,
             contentDescription = "Menu",
             modifier = Modifier.size(24.dp),
-            tint = Color.White
+            tint = MaterialTheme.colorScheme.onPrimary
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(item, modifier = Modifier.weight(1f), color = Color.White)
-        Icon(Icons.Filled.ArrowForward, contentDescription = "Go to $item", tint = Color.White)
+        Text(item, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.bodyLarge)
+        Icon(Icons.Filled.ArrowForward, contentDescription = "Go to $item", tint = MaterialTheme.colorScheme.onPrimary)
     }
 }
 

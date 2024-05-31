@@ -3,6 +3,7 @@ package be.sharmaprashant.fitnessapp.ui
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -12,12 +13,15 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.R
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -39,82 +43,117 @@ fun AddFoodScreen(
     var fatPerServing by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(R.drawable.exercise),
+            contentDescription = "Background Image",
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-        ) {
-            ShowDatePickers(foodDate) { selectedDate ->
-                foodDate = selectedDate
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = foodName,
-                onValueChange = { foodName = it },
-                label = { Text("Food Name") }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = caloriesPerServing,
-                onValueChange = { caloriesPerServing = it },
-                label = { Text("Calories per Serving") }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = proteinPerServing,
-                onValueChange = { proteinPerServing = it },
-                label = { Text("Protein per Serving") }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = carbohydratesPerServing,
-                onValueChange = { carbohydratesPerServing = it },
-                label = { Text("Carbohydrates per Serving") }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = fatPerServing,
-                onValueChange = { fatPerServing = it },
-                label = { Text("Fat per Serving") }
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Row(
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                Button(onClick = {
-                    navController.navigate("exercise")
-                }) {
-                    Text("Back")
+                    .padding(32.dp)
+            ) {
+                ShowDatePickers(foodDate) { selectedDate ->
+                    foodDate = selectedDate
                 }
-                Button(onClick = {
-                    val calories = caloriesPerServing.toDoubleOrNull()
-                    val protein = proteinPerServing.toDoubleOrNull()
-                    val carbs = carbohydratesPerServing.toDoubleOrNull()
-                    val fat = fatPerServing.toDoubleOrNull()
-                    if (calories != null) {
-                        if (protein != null) {
-                            if (carbs != null) {
-                                if (fat != null) {
-                                    viewModel.addFood(foodName, calories, protein, carbs, fat, foodDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = foodName,
+                    onValueChange = { foodName = it },
+                    label = { Text("Food Name", style = MaterialTheme.typography.bodyLarge) }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = caloriesPerServing,
+                    onValueChange = { caloriesPerServing = it },
+                    label = {
+                        Text(
+                            "Calories per Serving",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = proteinPerServing,
+                    onValueChange = { proteinPerServing = it },
+                    label = {
+                        Text(
+                            "Protein per Serving",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = carbohydratesPerServing,
+                    onValueChange = { carbohydratesPerServing = it },
+                    label = {
+                        Text(
+                            "Carbohydrates per Serving",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                TextField(
+                    value = fatPerServing,
+                    onValueChange = { fatPerServing = it },
+                    label = { Text("Fat per Serving", style = MaterialTheme.typography.bodyLarge) }
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(onClick = {
+                        navController.navigate("exercise")
+                    }) {
+                        Text("Back", style = MaterialTheme.typography.bodyLarge)
+                    }
+                    Button(onClick = {
+                        val calories = caloriesPerServing.toDoubleOrNull()
+                        val protein = proteinPerServing.toDoubleOrNull()
+                        val carbs = carbohydratesPerServing.toDoubleOrNull()
+                        val fat = fatPerServing.toDoubleOrNull()
+                        if (calories != null) {
+                            if (protein != null) {
+                                if (carbs != null) {
+                                    if (fat != null) {
+                                        viewModel.addFood(
+                                            foodName,
+                                            calories,
+                                            protein,
+                                            carbs,
+                                            fat,
+                                            foodDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+                                        )
+                                    }
                                 }
                             }
+                            onFoodAdded()
+                            navController.navigate("exercise")
+                        } else {
+                            errorMessage =
+                                "Please ensure all nutritional values are entered correctly"
                         }
-                        onFoodAdded()
-                        navController.navigate("exercise")
-                    }else{
-                        errorMessage = "Please ensure all nutritional values are entered correctly"
+                    }) {
+                        Text("Add Food", style = MaterialTheme.typography.bodyLarge)
                     }
-                }) {
-                    Text("Add Food")
-                }
-                errorMessage?.let {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = it, color = MaterialTheme.colorScheme.error)
+                    errorMessage?.let {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = it, color = MaterialTheme.colorScheme.error)
+                    }
                 }
             }
         }
@@ -147,7 +186,7 @@ fun ShowDatePickers(currentDate: LocalDate, onDateSelected: (LocalDate) -> Unit)
         modifier = Modifier.fillMaxWidth().padding(25.dp),
         shape = RoundedCornerShape(2.dp)
     ) {
-        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
+        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}", style = MaterialTheme.typography.bodyLarge)
     }
 }
 

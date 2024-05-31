@@ -2,6 +2,7 @@ package be.sharmaprashant.fitnessapp.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -38,6 +39,7 @@ fun PageBackground(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .border(3.dp, Color.White)
         ) {
             Image(
                 painter = backgroundImagePainter,
@@ -63,19 +65,19 @@ fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .border(3.dp, Color.White)
     ) {
         Image(
             painter = backgroundImagePainter,
             contentDescription = "Background Image",
             modifier = Modifier
-                .fillMaxSize()
-                .blur(10.dp),
+                .fillMaxSize(),
             contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f)) // Semi-transparent overlay
+                .background(Color.Black.copy(alpha = 0.5f))
         ) {
             Row(
                 modifier = Modifier
@@ -86,7 +88,7 @@ fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.displayLarge,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.weight(1f)
                 )

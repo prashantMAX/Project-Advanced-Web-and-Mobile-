@@ -13,14 +13,11 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -36,7 +33,12 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel(), exerciseviewModel: ExerciseViewModel = viewModel(), foodviewModel: FoodViewModel = viewModel()) {
+fun LoginScreen(
+    navController: NavHostController,
+    viewModel: LoginViewModel = viewModel(),
+    exerciseviewModel: ExerciseViewModel = viewModel(),
+    foodviewModel: FoodViewModel = viewModel()
+) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -67,9 +69,8 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
             onValueChange = { username = it },
             label = { Text("Username") },
             singleLine = true,
-            leadingIcon = {Icon(Icons.Filled.Email, contentDescription = "Email Icon")},
+            leadingIcon = { Icon(Icons.Filled.Email, contentDescription = "Email Icon") },
             modifier = Modifier.fillMaxWidth()
-
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -77,7 +78,7 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
             onValueChange = { password = it },
             label = { Text("Password") },
             singleLine = true,
-            leadingIcon = {Icon(Icons.Filled.Lock, contentDescription = "Lock Icon")},
+            leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = "Lock Icon") },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
@@ -93,7 +94,9 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
                             viewModel.fetchUserProfile(token)
                             exerciseviewModel.fetchExercises(token, date)
                             foodviewModel.fetchFood(token, date)
-                            navController.navigate("home")
+                            navController.navigate("home") {
+                                popUpTo("login") { inclusive = true }
+                            }
                         } else {
                             errorMessage = body?.get("message")?.asString ?: "Unknown error"
                         }
