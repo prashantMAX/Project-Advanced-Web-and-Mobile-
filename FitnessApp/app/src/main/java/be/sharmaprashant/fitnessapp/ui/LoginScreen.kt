@@ -54,7 +54,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.backgroundd),
+            painter = painterResource(id = R.drawable.fitness),
             contentDescription = "App Logo",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)

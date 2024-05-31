@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -42,7 +43,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
 
     PageBackground(
         title = stringResource(R.string.app_name),
-        backgroundImagePainter = painterResource(R.drawable.backgroundd)
+        topBarImagePainer = painterResource(R.drawable.fitness),
+        backgroundImagePainter = painterResource(R.drawable.test),
+        navController = navController
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -82,7 +85,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f)
-                        .border(2.dp, Color.White)
+                        .padding(1.dp)
+                        .shadow(20.dp, shape = MaterialTheme.shapes.small)
+                        .border(2.dp, MaterialTheme.colorScheme.onPrimary, shape = MaterialTheme.shapes.large)
                         .padding(10.dp)
                         .fillMaxWidth()
                 ) {
@@ -112,7 +117,9 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f)
-                        .border(2.dp, Color.White)
+                        .padding(1.dp)
+                        .shadow(20.dp, shape = MaterialTheme.shapes.small)
+                        .border(2.dp, MaterialTheme.colorScheme.onPrimary, shape = MaterialTheme.shapes.large)
                         .padding(10.dp)
                         .fillMaxWidth()
                 ) {

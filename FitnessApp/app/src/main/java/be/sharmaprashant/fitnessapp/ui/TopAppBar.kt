@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,45 +15,66 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.unit.dp
-
+import androidx.navigation.NavController
 
 
 @Composable
 fun PageBackground(
     title: String,
+    topBarImagePainer: Painter,
     backgroundImagePainter: Painter,
+    navController: NavController,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         topBar = {
-            Box(
-                modifier = Modifier.height(100.dp)
-            ) {
-                CustomTopAppBarWithImage(
-                    title = title,
-                    backgroundImagePainter = backgroundImagePainter
-                )
+            Column {
+                Box(
+                    modifier = Modifier.height(100.dp)
+                ) {
+                    CustomTopAppBarWithImage(
+                        title = title,
+                        backgroundImagePainter = topBarImagePainer
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Button(onClick = { navController.navigate("home") }) {
+                        Text("Home")
+                    }
+                    Button(onClick = { navController.navigate("exercise") }) {
+                        Text("Exercise")
+                    }
+                    Button(onClick = { navController.navigate("overview") }) {
+                        Text("Overview")
+                    }
+                }
             }
         }
     ) { innerPadding ->
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .border(3.dp, Color.White)
+                .border(3.dp, MaterialTheme.colorScheme.onSurface)
         ) {
             Image(
                 painter = backgroundImagePainter,
                 contentDescription = "Background Image",
                 modifier = Modifier
-                    .fillMaxSize()
-                    .blur(10.dp),
+                    .fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f))
+                    .background(Color.Black.copy(alpha = 0.3f))
             ) {
                 content(innerPadding)
             }
@@ -65,7 +87,7 @@ fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .border(3.dp, Color.White)
+            .border(3.dp, MaterialTheme.colorScheme.onSurface)
     ) {
         Image(
             painter = backgroundImagePainter,
@@ -77,7 +99,7 @@ fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f))
+                .background(Color.Black.copy(alpha = 0.3f))
         ) {
             Row(
                 modifier = Modifier
