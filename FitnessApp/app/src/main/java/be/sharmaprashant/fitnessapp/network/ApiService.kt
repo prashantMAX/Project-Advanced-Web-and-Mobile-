@@ -49,8 +49,26 @@ interface ApiService {
     @POST("Test.php")
     @Headers("Content-Type: application/json")
     suspend fun getExercisesPerDate(@Body request: ExercisesPerDateRequest): Response<JsonObject>
-}
 
+    @POST("DeleteNutrition.php")
+    @Headers("Content-Type: application/json")
+    suspend fun deleteNutrition(@Body request: DeleteNutritionRequest): Response<JsonObject>
+
+    @POST("DeleteExercise.php")
+    @Headers("Content-Type: application/json")
+    suspend fun deleteExercise(@Body request: DeleteExerciseRequest): Response<JsonObject>
+
+
+}
+data class DeleteNutritionRequest(
+    val token: String,
+    val food_id: Int
+)
+
+data class DeleteExerciseRequest(
+    val token: String,
+    val exercise_id: Int
+)
 data class LoginResponse(
     val success: Boolean,
     val message: String?,
