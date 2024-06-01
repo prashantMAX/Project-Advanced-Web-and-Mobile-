@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.sharmaprashant.fitnessapp.data.Exercises
 import be.sharmaprashant.fitnessapp.network.AddExerciseRequest
+import be.sharmaprashant.fitnessapp.network.DeleteExerciseRequest
 import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest
-import be.sharmaprashant.fitnessapp.network.ExercisesPerDateRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
@@ -80,5 +80,32 @@ class ExerciseViewModel : ViewModel() {
             }
         }
     }
+
+    fun deleteExercise(exerciseId: Int) {
+        val token = this.token
+        if (token == null) {
+            return
+        }
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiService.deleteExercise(
+                    DeleteExerciseRequest(
+                        token,
+                        exerciseId
+                    )
+                )
+                if (response.isSuccessful) {
+                    fetchExercises(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
+                } else {
+
+                }
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+
+
 }
 

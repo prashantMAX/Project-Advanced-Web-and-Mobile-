@@ -50,11 +50,11 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun getExercisesPerDate(@Body request: ExercisesPerDateRequest): Response<JsonObject>
 
-    @POST("DeleteNutrition.php")
+    @POST("deleteNutrition.php")
     @Headers("Content-Type: application/json")
     suspend fun deleteNutrition(@Body request: DeleteNutritionRequest): Response<JsonObject>
 
-    @POST("DeleteExercise.php")
+    @POST("deleteExercise.php")
     @Headers("Content-Type: application/json")
     suspend fun deleteExercise(@Body request: DeleteExerciseRequest): Response<JsonObject>
 

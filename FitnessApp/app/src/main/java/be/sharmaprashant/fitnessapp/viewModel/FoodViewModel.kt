@@ -1,11 +1,11 @@
 package be.sharmaprashant.fitnessapp.viewModel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.sharmaprashant.fitnessapp.data.Food
 import be.sharmaprashant.fitnessapp.network.AddFoodRequest
+import be.sharmaprashant.fitnessapp.network.DeleteNutritionRequest
 import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import com.google.gson.JsonObject
@@ -86,6 +86,31 @@ class FoodViewModel : ViewModel() {
             }
         }
     }
+
+    fun deleteFood(foodId: Int) {
+        val token = this.token
+        if (token == null) {
+            return
+        }
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.apiService.deleteNutrition(
+                    DeleteNutritionRequest(
+                        token,
+                        foodId
+                    )
+                )
+                if (response.isSuccessful) {
+                    fetchFood(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
+                } else {
+
+                }
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
 
 
 }
