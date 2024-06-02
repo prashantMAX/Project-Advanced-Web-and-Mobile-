@@ -8,17 +8,12 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-object RetrofitClient {
-    private const val BASE_URL = "https://www.gauravghimire.be/API_Fitness/api/"
+private const val BASE_URL = "https://www.gauravghimire.be/API_Fitness/api/"
 
-    val apiService: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
-}
+private val retrofit = Retrofit.Builder()
+         .addConverterFactory(GsonConverterFactory.create())
+         .baseUrl(BASE_URL)
+         .build()
 
 interface ApiService {
     @POST("Login.php")
@@ -36,7 +31,6 @@ interface ApiService {
     @POST("AddExercises.php")
     @Headers("Content-Type: application/json")
     suspend fun addExercise(@Body request: AddExerciseRequest): Response<JsonObject>
-
 
     @POST("AddNutrition.php")
     @Headers("Content-Type: application/json")
@@ -58,8 +52,14 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun deleteExercise(@Body request: DeleteExerciseRequest): Response<JsonObject>
 
-
 }
+
+object RetrofitClient {
+    val apiService: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
+
 data class DeleteNutritionRequest(
     val token: String,
     val food_id: Int
