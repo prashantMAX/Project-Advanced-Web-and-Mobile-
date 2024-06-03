@@ -2,17 +2,29 @@ package be.sharmaprashant.fitnessapp.ui
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,10 +35,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -44,11 +59,11 @@ import java.time.format.DateTimeFormatter
 fun OverviewScreen(
     navController: NavHostController,
     exercise: List<Exercises>,
-    exerciseviewModel: ExerciseViewModel = viewModel(),
-    foodviewModel: FoodViewModel = viewModel()
+    exerciseviewModel: ExerciseViewModel = viewModel()
 ) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
+    var clickedDate by remember { mutableStateOf(LocalDate.now()) }
 
     PageBackground(
         title = stringResource(R.string.app_name),
@@ -56,57 +71,71 @@ fun OverviewScreen(
         backgroundImagePainter = null,
         navController = navController
     ) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding)
+        LazyColumn(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize() // Ensure the LazyColumn fills the available space
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            ) {
-                Text(
-                    text = "Date",
-                    fontSize = 36.sp, // Increased font size for "Date"
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = "Done?",
-                    fontSize = 36.sp, // Increased font size for "Done?"
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(1.dp)
-                    .shadow(20.dp, shape = MaterialTheme.shapes.small)
-                    .border(2.dp, MaterialTheme.colorScheme.onPrimary, shape = MaterialTheme.shapes.large)
-                    .padding(10.dp)
-                    .fillMaxWidth()
-            ) {
-                val dateList = mutableListOf<LocalDate>()
-                for (i in -3..3) {
-                    dateList.add(currentDay.plusDays(i.toLong()))
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = "Date",
+                        fontSize = 36.sp, // Increased font size for "Date"
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
                 }
-                items(dateList) { date ->
+            }
+            val dateList = mutableListOf<LocalDate>()
+            for (i in -3..3) {
+                dateList.add(currentDay.plusDays(i.toLong()))
+            }
+            items(dateList) { date ->
+                var expanded by remember { mutableStateOf(false) }
+                Column(
+                    modifier = Modifier
+                        .animateContentSize(
+                            animationSpec = spring(
+                                dampingRatio = Spring.DampingRatioNoBouncy,
+                                stiffness = Spring.StiffnessMedium
+                            )
+                        )
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { /* Handle date click here */ }
-                            .padding(10.dp),
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = date.format(DateTimeFormatter.ofPattern("EEE")), fontSize = 36.sp) // Increased font size for dates
+                        Text(
+                            text = date.format(DateTimeFormatter.ofPattern("EEEE")),
+                            fontSize = 36.sp
+                        ) // Increased font size for dates
                         Spacer(modifier = Modifier.weight(1f))
-                        val isChecked = // Logic to check if exercise is done for this date
-                            false // Replace with actual logic
-                        Checkbox(
-                            checked = isChecked,
-                            onCheckedChange = { /* Update exercise completion status */ },
-                            modifier = Modifier.size(24.dp) // Increased size for checkbox
+                        ExpandItem(
+                            expanded = expanded,
+                            onClick = {
+                                clickedDate = date // Update clickedDate when item is clicked
+                                exerciseviewModel.token?.let {
+                                    exerciseviewModel.fetchExercises(it, clickedDate.toString())
+                                }
+                                expanded = !expanded
+                            }
                         )
+                    }
+
+                    if (expanded) {
+                        if (exercise.isEmpty()) {
+                            Text(text = "Rest Day", modifier = Modifier.padding(8.dp))
+                        } else {
+                            ExerciseList(exercise = exercise, height = 200.dp)
+                        }
                     }
                 }
             }
@@ -115,10 +144,77 @@ fun OverviewScreen(
 }
 
 
+
+@Composable
+fun ExerciseList(exercise: List<Exercises>, height: Dp) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height),
+    ) {
+        items(exercise) { exercise ->
+            ExerciseOverview(exercise = exercise)
+        }
+    }
+}
+
+
+
+
+
+@Composable
+fun ExerciseOverview(exercise: Exercises) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = exercise.exercise_name,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Calories per rep: ${exercise.calories_per_rep}",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+private fun ExpandItem(
+    expanded: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+            contentDescription = "expand",
+            tint = MaterialTheme.colorScheme.secondary
+        )
+    }
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun OverviewScreenPreview() {
-    val navController = rememberNavController() // Simulate navigation controller
-    OverviewScreen(navController = navController, exercise = emptyList())
+    val navController = rememberNavController()
+    val sampleExercises = listOf(
+        Exercises(1, 1, "Push Up", 0.5, 2),
+        Exercises(1, 2, "Sit Up", 0.4, 2),
+        Exercises(1, 3, "Squat", 0.6, 2)
+    )
+    OverviewScreen(navController = navController, exercise = sampleExercises)
 }

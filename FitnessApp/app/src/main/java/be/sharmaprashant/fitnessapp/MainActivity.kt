@@ -92,12 +92,11 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("overview") {
                             val exercise = exerciseViewModel.exercises.observeAsState().value
-
                             if (exercise != null ) {
                                 OverviewScreen(
                                     exercise = exercise,
                                     navController = navController,
-                                    exerciseviewModel = exerciseViewModel,
+                                    exerciseviewModel = exerciseViewModel
                                 )
                             } else {
                                 Text("Error: Exercise or food data is missing.")
