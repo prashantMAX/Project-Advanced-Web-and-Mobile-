@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
@@ -32,38 +33,39 @@ import androidx.navigation.NavController
 @Composable
 fun PageBackground(
     title: String,
-    topBarImagePainer: Painter,
+    topBarImagePainter: Painter,
     backgroundImagePainter: Painter?,
     navController: NavController,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         topBar = {
-            Column {
-                Box(
-                    modifier = Modifier.height(100.dp)
-                ) {
-                    CustomTopAppBarWithImage(
-                        title = title,
-                        backgroundImagePainter = topBarImagePainer,
-                        navController = navController
-                    )
+            Box(
+                modifier = Modifier.height(100.dp)
+            ) {
+                CustomTopAppBarWithImage(
+                    title = title,
+                    backgroundImagePainter = topBarImagePainter,
+                    navController = navController
+                )
+            }
+        },
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .padding(bottom = 55.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Button(onClick = { navController.navigate("home") }) {
+                    Text("Home", style = MaterialTheme.typography.bodyMedium)
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    Button(onClick = { navController.navigate("home") }) {
-                        Text("Home")
-                    }
-                    Button(onClick = { navController.navigate("exercise") }) {
-                        Text("Exercise")
-                    }
-                    Button(onClick = { navController.navigate("overview") }) {
-                        Text("Overview")
-                    }
+                Button(onClick = { navController.navigate("exercise") }) {
+                    Text("Exercise", style = MaterialTheme.typography.bodyMedium)
+                }
+                Button(onClick = { navController.navigate("overview") }) {
+                    Text("Overview", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -79,8 +81,7 @@ fun PageBackground(
                     painter = backgroundImagePainter,
                     contentDescription = "Background Image",
                     modifier = Modifier
-                        .fillMaxSize()
-                        .blur(5.dp),
+                        .fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -94,7 +95,6 @@ fun PageBackground(
         }
     }
 }
-
 @Composable
 fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter, navController: NavController) {
     Box(
@@ -102,33 +102,26 @@ fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter, nav
             .fillMaxSize()
             .border(3.dp, MaterialTheme.colorScheme.onSurface)
     ) {
-        Image(
-            painter = backgroundImagePainter,
-            contentDescription = "Background Image",
+        Row(
             modifier = Modifier
-                .fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.3f))
+                .fillMaxWidth()
+                .height(100.dp)
         ) {
-            Row(
+            Image(
+                painter = backgroundImagePainter,
+                contentDescription = "Background Image",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .padding(horizontal = 16.dp)
                     .clickable { navController.navigate("home") },
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.weight(1f)
-                )
-            }
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+            )
         }
     }
 }
+

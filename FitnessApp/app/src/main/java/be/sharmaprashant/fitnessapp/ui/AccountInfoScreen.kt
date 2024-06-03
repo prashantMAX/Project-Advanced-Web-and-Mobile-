@@ -31,8 +31,8 @@ import be.sharmaprashant.fitnessapp.model.UserProfile
 fun AccountInfoScreen(userProfile: UserProfile, navController: NavHostController) {
     PageBackground(
         title = stringResource(R.string.app_name),
-        topBarImagePainer = painterResource(R.drawable.fitness),
-        backgroundImagePainter = painterResource(R.drawable.test),
+        topBarImagePainter = painterResource(R.drawable.logo),
+        backgroundImagePainter = painterResource(R.drawable.background),
         navController = navController
     ) { innerPadding ->
         Column(

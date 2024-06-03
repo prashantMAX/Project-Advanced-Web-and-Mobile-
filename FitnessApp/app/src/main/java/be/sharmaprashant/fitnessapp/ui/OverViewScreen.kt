@@ -58,14 +58,14 @@ fun OverviewScreen(
 
     PageBackground(
         title = stringResource(R.string.app_name),
-        topBarImagePainer = painterResource(R.drawable.fitness),
-        backgroundImagePainter = null,
+        topBarImagePainter = painterResource(R.drawable.logo),
+        backgroundImagePainter = painterResource(R.drawable.background),
         navController = navController
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize() // Ensure the LazyColumn fills the available space
+                .fillMaxSize()
         ) {
             item {
                 Row(
@@ -75,9 +75,9 @@ fun OverviewScreen(
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = "Date",
-                        fontSize = 36.sp, // Increased font size for "Date"
-                        fontWeight = FontWeight.Bold
+                        text = formattedDate,
+                        style = MaterialTheme.typography.displayLarge,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -106,7 +106,8 @@ fun OverviewScreen(
                     ) {
                         Text(
                             text = date.format(DateTimeFormatter.ofPattern("EEEE")),
-                            fontSize = 36.sp
+                            style = MaterialTheme.typography.displayMedium,
+                            color = MaterialTheme.colorScheme.onPrimary
                         ) // Increased font size for dates
                         Spacer(modifier = Modifier.weight(1f))
                         ExpandItem(
@@ -123,7 +124,7 @@ fun OverviewScreen(
 
                     if (expanded) {
                         if (exercise.isEmpty()) {
-                            Text(text = "Rest Day", modifier = Modifier.padding(8.dp))
+                            Text(text = "Rest Day", modifier = Modifier.padding(8.dp), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimary)
                         } else {
                             ExerciseList(exercise = exercise, height = 200.dp)
                         }

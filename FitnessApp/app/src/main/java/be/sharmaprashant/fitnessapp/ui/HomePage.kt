@@ -38,14 +38,13 @@ import be.sharmaprashant.fitnessapp.model.UserProfile
 fun HomePage(navController: NavHostController, userProfile: UserProfile) {
     PageBackground(
         title = stringResource(R.string.app_name),
-        topBarImagePainer = painterResource(R.drawable.fitness),
-        backgroundImagePainter = painterResource(R.drawable.test),
+        topBarImagePainter = painterResource(R.drawable.logo),
+        backgroundImagePainter = painterResource(R.drawable.background),
         navController = navController,
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(16.dp),
+                .padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

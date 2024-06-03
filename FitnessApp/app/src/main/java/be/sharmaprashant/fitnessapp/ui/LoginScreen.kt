@@ -54,12 +54,12 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.fitness),
+            painter = painterResource(id = R.drawable.logo),
             contentDescription = "App Logo",
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
-                .aspectRatio(16 / 9f),
+                .aspectRatio(9 / 9f),
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(32.dp))
@@ -108,7 +108,7 @@ fun LoginScreen(
                 }
             }
         }) {
-            Text("Login")
+            Text("Login", style = MaterialTheme.typography.bodyMedium)
         }
         errorMessage?.let {
             Spacer(modifier = Modifier.height(8.dp))

@@ -45,7 +45,7 @@ fun AddExerciseScreen(
             .fillMaxSize()
     ) {
         Image(
-            painter = painterResource(R.drawable.backgroundd),
+            painter = painterResource(R.drawable.background),
             contentDescription = "Background Image",
             modifier = Modifier
                 .fillMaxSize(),

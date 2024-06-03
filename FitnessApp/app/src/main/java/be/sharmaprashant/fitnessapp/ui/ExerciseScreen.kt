@@ -2,6 +2,7 @@ package be.sharmaprashant.fitnessapp.ui
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -52,8 +53,8 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
 
     PageBackground(
         title = stringResource(R.string.app_name),
-        topBarImagePainer = painterResource(R.drawable.fitness),
-        backgroundImagePainter = painterResource(R.drawable.test),
+        topBarImagePainter = painterResource(R.drawable.logo),
+        backgroundImagePainter = painterResource(R.drawable.background),
         navController = navController
     ) { innerPadding ->
         Column(
@@ -70,7 +71,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             ) {
                 Text(formattedDate, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                 Button(onClick = { }) {
-                    Text("Rest day?", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Rest day?", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
 
@@ -94,9 +95,8 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(1.dp)
-                        .shadow(20.dp, shape = MaterialTheme.shapes.small)
                         .border(2.dp, MaterialTheme.colorScheme.onPrimary, shape = MaterialTheme.shapes.large)
+                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                         .padding(10.dp)
                         .fillMaxWidth()
                 ) {
@@ -119,7 +119,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .padding(8.dp)
                 ) {
                     Text("Food", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
-                    Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
+                    Spacer(modifier = Modifier.weight(1f))
                     Button(onClick = {
                         navController.navigate("AddFoodScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
                     }) {
@@ -129,9 +129,8 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(1.dp)
-                        .shadow(20.dp, shape = MaterialTheme.shapes.small)
                         .border(2.dp, MaterialTheme.colorScheme.onPrimary, shape = MaterialTheme.shapes.large)
+                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
                         .padding(10.dp)
                         .fillMaxWidth()
                 ) {
@@ -160,7 +159,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         }
                     }
                 ) {
-                    Text("Previous Day", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Previous Day", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimary)
                 }
 
                 Button(
@@ -174,7 +173,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         }
                     }
                 ) {
-                    Text("Next Day", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+                    Text("Next Day", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         }
