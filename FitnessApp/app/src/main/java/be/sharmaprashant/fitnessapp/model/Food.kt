@@ -1,4 +1,4 @@
-package be.sharmaprashant.fitnessapp.Model
+package be.sharmaprashant.fitnessapp.model
 
 data class Food (
     val userId: Int,

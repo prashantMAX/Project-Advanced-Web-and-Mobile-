@@ -37,8 +37,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.R
-import be.sharmaprashant.fitnessapp.Model.Exercises
-import be.sharmaprashant.fitnessapp.Model.Food
+import be.sharmaprashant.fitnessapp.model.Exercises
+import be.sharmaprashant.fitnessapp.model.Food
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 import java.time.LocalDate

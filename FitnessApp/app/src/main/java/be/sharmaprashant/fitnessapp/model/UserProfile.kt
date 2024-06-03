@@ -1,4 +1,4 @@
-package be.sharmaprashant.fitnessapp.Model
+package be.sharmaprashant.fitnessapp.model
 
 data class UserProfile(
     val profileID: Int,

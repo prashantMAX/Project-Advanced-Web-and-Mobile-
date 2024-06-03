@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.sharmaprashant.fitnessapp.Model.Exercises
-import be.sharmaprashant.fitnessapp.network.AddExerciseRequest
-import be.sharmaprashant.fitnessapp.network.DeleteExerciseRequest
-import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest
+import be.sharmaprashant.fitnessapp.model.Exercises
+import be.sharmaprashant.fitnessapp.model.AddExerciseRequest
+import be.sharmaprashant.fitnessapp.model.DeleteExerciseRequest
+import be.sharmaprashant.fitnessapp.model.ExercisesAndFoodRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch

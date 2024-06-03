@@ -1,12 +1,12 @@
-package be.sharmaprashant.fitnessapp.viewmodel
+package be.sharmaprashant.fitnessapp.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.sharmaprashant.fitnessapp.Model.UserProfile
+import be.sharmaprashant.fitnessapp.model.UserProfile
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
-import be.sharmaprashant.fitnessapp.network.TokenRequest
+import be.sharmaprashant.fitnessapp.model.TokenRequest
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response

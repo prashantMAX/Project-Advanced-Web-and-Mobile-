@@ -1,5 +1,13 @@
 package be.sharmaprashant.fitnessapp.network
 
+import be.sharmaprashant.fitnessapp.model.AddExerciseRequest
+import be.sharmaprashant.fitnessapp.model.AddFoodRequest
+import be.sharmaprashant.fitnessapp.model.DeleteExerciseRequest
+import be.sharmaprashant.fitnessapp.model.DeleteNutritionRequest
+import be.sharmaprashant.fitnessapp.model.ExercisesAndFoodRequest
+import be.sharmaprashant.fitnessapp.model.ExercisesPerDateRequest
+import be.sharmaprashant.fitnessapp.model.LoginRequest
+import be.sharmaprashant.fitnessapp.model.TokenRequest
 import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -59,52 +67,3 @@ object RetrofitClient {
         retrofit.create(ApiService::class.java)
     }
 }
-
-data class DeleteNutritionRequest(
-    val token: String,
-    val food_id: Int
-)
-
-data class DeleteExerciseRequest(
-    val token: String,
-    val exercise_id: Int
-)
-data class LoginResponse(
-    val success: Boolean,
-    val message: String?,
-    val token: String?
-)
-
-data class LoginRequest(
-    val username: String,
-    val password: String
-)
-
-data class TokenRequest(
-    val token: String
-)
-data class ExercisesAndFoodRequest(
-    val token: String,
-    val date: String
-)
-
-data class AddExerciseRequest(
-    val token: String,
-    val exercise_name: String,
-    val calories_per_rep: Double,
-    val date: String
-)
-
-data class AddFoodRequest(
-    val token: String,
-    val food_name: String,
-    val calories_per_serving: Double,
-    val protein_per_serving: Double,
-    val carbohydrates_per_serving: Double,
-    val fat_per_serving: Double,
-    val date: String
-)
-
-data class ExercisesPerDateRequest(
-    val token: String
-)
