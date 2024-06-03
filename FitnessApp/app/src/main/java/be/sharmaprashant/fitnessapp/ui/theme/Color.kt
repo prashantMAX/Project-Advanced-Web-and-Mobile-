@@ -1,7 +1,7 @@
-package com.example.compose
+package be.sharmaprashant.fitnessapp.ui.theme
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xFF004DA6)
+val primaryLight = Color(0xFF293E66)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFF2771DF)
 val onPrimaryContainerLight = Color(0xFFFFFFFF)
@@ -109,8 +109,8 @@ val surfaceContainerLightHighContrast = Color(0xFFECEDF7)
 val surfaceContainerHighLightHighContrast = Color(0xFFE7E7F1)
 val surfaceContainerHighestLightHighContrast = Color(0xFFE1E2EB)
 
-val primaryDark = Color(0xFFADC6FF)
-val onPrimaryDark = Color(0xFF002E69)
+val primaryDark = Color(0xFF2771DF)
+val onPrimaryDark =  Color(0xFFFFFFFF)
 val primaryContainerDark = Color(0xFF2771DF)
 val onPrimaryContainerDark = Color(0xFFFFFFFF)
 val secondaryDark = Color(0xFFB1C6F7)

@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import be.sharmaprashant.fitnessapp.ui.theme.FitnessAppTheme
 import be.sharmaprashant.fitnessapp.ui.AccountInfoScreen
 import be.sharmaprashant.fitnessapp.ui.AddExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.ExerciseScreen
@@ -22,7 +23,6 @@ import be.sharmaprashant.fitnessapp.ui.HomePage
 import be.sharmaprashant.fitnessapp.ui.LoginScreen
 import be.sharmaprashant.fitnessapp.ui.AddFoodScreen
 import be.sharmaprashant.fitnessapp.ui.OverviewScreen
-import be.sharmaprashant.fitnessapp.ui.theme.FitnessAppTheme
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
 import be.sharmaprashant.fitnessapp.viewModel.LoginViewModel

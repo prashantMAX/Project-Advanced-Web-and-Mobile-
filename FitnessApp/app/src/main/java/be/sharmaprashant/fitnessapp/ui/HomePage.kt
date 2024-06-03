@@ -77,7 +77,7 @@ fun ProfileSection(navController: NavHostController, userProfile: UserProfile) {
             contentScale = ContentScale.Inside
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(userProfile.name, color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.displayMedium)
+        Text(userProfile.name, color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.displaySmall)
     }
 }
 

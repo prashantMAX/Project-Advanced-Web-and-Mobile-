@@ -59,13 +59,13 @@ fun PageBackground(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Button(onClick = { navController.navigate("home") }) {
-                    Text("Home", style = MaterialTheme.typography.bodyMedium)
+                    Text("Home", style = MaterialTheme.typography.bodySmall)
                 }
                 Button(onClick = { navController.navigate("exercise") }) {
-                    Text("Exercise", style = MaterialTheme.typography.bodyMedium)
+                    Text("Exercise", style = MaterialTheme.typography.bodySmall)
                 }
                 Button(onClick = { navController.navigate("overview") }) {
-                    Text("Overview", style = MaterialTheme.typography.bodyMedium)
+                    Text("Overview", style = MaterialTheme.typography.bodySmall)
                 }
             }
         }
@@ -116,7 +116,7 @@ fun CustomTopAppBarWithImage(title: String, backgroundImagePainter: Painter, nav
             )
             Text(
                 text = title,
-                style = MaterialTheme.typography.displayLarge,
+                style = MaterialTheme.typography.displaySmall,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)

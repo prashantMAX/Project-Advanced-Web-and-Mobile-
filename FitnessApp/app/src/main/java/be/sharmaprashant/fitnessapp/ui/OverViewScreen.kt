@@ -65,6 +65,7 @@ fun OverviewScreen(
         LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
+                .padding(8.dp)
                 .fillMaxSize()
         ) {
             item {
@@ -76,7 +77,7 @@ fun OverviewScreen(
                 ) {
                     Text(
                         text = formattedDate,
-                        style = MaterialTheme.typography.displayLarge,
+                        style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Spacer(modifier = Modifier.weight(1f))
@@ -106,9 +107,9 @@ fun OverviewScreen(
                     ) {
                         Text(
                             text = date.format(DateTimeFormatter.ofPattern("EEEE")),
-                            style = MaterialTheme.typography.displayMedium,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        ) // Increased font size for dates
+                            style = MaterialTheme.typography.titleLarge,
+                            color = if (date == currentDay) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.onPrimary
+                        )// Increased font size for dates
                         Spacer(modifier = Modifier.weight(1f))
                         ExpandItem(
                             expanded = expanded,
@@ -193,7 +194,7 @@ private fun ExpandItem(
         Icon(
             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             contentDescription = "expand",
-            tint = MaterialTheme.colorScheme.secondary
+            tint = MaterialTheme.colorScheme.onPrimary
         )
     }
 }

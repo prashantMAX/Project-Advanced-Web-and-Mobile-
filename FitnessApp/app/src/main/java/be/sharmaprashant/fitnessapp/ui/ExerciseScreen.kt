@@ -145,7 +145,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
