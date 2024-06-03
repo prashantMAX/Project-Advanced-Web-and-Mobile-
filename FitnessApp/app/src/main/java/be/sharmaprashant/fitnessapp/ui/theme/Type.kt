@@ -9,10 +9,6 @@ import androidx.compose.ui.unit.sp
 import be.sharmaprashant.fitnessapp.R
 
 
-val AbrilFatface = FontFamily(
-    Font(R.font.abrilfatface_regular)
-)
-
 val Montserrat = FontFamily(
     Font(R.font.montserratalternates_regular),
     Font(R.font.montserratalternates_bold, FontWeight.Bold)
@@ -20,7 +16,7 @@ val Montserrat = FontFamily(
 
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = AbrilFatface,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
         fontSize = 36.sp
     ),
