@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.sharmaprashant.fitnessapp.data.Exercises
+import be.sharmaprashant.fitnessapp.Model.Exercises
 import be.sharmaprashant.fitnessapp.network.AddExerciseRequest
 import be.sharmaprashant.fitnessapp.network.DeleteExerciseRequest
 import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest

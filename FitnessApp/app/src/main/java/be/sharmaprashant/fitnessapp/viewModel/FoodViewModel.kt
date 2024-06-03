@@ -3,7 +3,7 @@ package be.sharmaprashant.fitnessapp.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.sharmaprashant.fitnessapp.data.Food
+import be.sharmaprashant.fitnessapp.Model.Food
 import be.sharmaprashant.fitnessapp.network.AddFoodRequest
 import be.sharmaprashant.fitnessapp.network.DeleteNutritionRequest
 import be.sharmaprashant.fitnessapp.network.ExercisesAndFoodRequest

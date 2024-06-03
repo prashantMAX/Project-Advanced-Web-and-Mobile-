@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.R
-import be.sharmaprashant.fitnessapp.data.UserProfile
+import be.sharmaprashant.fitnessapp.Model.UserProfile
 
 @Composable
 fun AccountInfoScreen(userProfile: UserProfile, navController: NavHostController) {

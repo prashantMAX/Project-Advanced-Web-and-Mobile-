@@ -1,6 +1,4 @@
-package be.sharmaprashant.fitnessapp.data
-
-import android.icu.text.DecimalFormat
+package be.sharmaprashant.fitnessapp.Model
 
 data class Exercises(
     val userId: Int,

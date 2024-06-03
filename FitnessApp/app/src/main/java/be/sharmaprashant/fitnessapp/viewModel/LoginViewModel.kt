@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.sharmaprashant.fitnessapp.data.UserProfile
+import be.sharmaprashant.fitnessapp.Model.UserProfile
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import be.sharmaprashant.fitnessapp.network.TokenRequest
 import com.google.gson.JsonObject
