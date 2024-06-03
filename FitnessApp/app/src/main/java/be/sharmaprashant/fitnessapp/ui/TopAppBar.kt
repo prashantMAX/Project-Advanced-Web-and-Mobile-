@@ -78,7 +78,8 @@ fun PageBackground(
                     painter = backgroundImagePainter,
                     contentDescription = "Background Image",
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .blur(5.dp),
                     contentScale = ContentScale.Crop
                 )
             }
