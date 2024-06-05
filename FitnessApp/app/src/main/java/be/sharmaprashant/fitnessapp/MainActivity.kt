@@ -18,10 +18,10 @@ import androidx.navigation.compose.rememberNavController
 import be.sharmaprashant.fitnessapp.ui.theme.FitnessAppTheme
 import be.sharmaprashant.fitnessapp.ui.AccountInfoScreen
 import be.sharmaprashant.fitnessapp.ui.AddExerciseScreen
+import be.sharmaprashant.fitnessapp.ui.AddFoodScreen
 import be.sharmaprashant.fitnessapp.ui.ExerciseScreen
 import be.sharmaprashant.fitnessapp.ui.HomePage
 import be.sharmaprashant.fitnessapp.ui.LoginScreen
-import be.sharmaprashant.fitnessapp.ui.AddFoodScreen
 import be.sharmaprashant.fitnessapp.ui.OverviewScreen
 import be.sharmaprashant.fitnessapp.viewModel.ExerciseViewModel
 import be.sharmaprashant.fitnessapp.viewModel.FoodViewModel
@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
     private val userProfileViewModel: LoginViewModel by viewModels()
     private val exerciseViewModel: ExerciseViewModel by viewModels()
     private val foodViewModel: FoodViewModel by viewModels()
-
-
+    
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
