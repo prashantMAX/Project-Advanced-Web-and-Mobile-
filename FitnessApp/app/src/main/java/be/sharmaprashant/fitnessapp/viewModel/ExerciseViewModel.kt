@@ -3,17 +3,14 @@ package be.sharmaprashant.fitnessapp.viewModel
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import be.sharmaprashant.fitnessapp.model.Exercises
 import be.sharmaprashant.fitnessapp.model.AddExerciseRequest
 import be.sharmaprashant.fitnessapp.model.DeleteExerciseRequest
+import be.sharmaprashant.fitnessapp.model.Exercises
 import be.sharmaprashant.fitnessapp.model.ExercisesAndFoodRequest
 import be.sharmaprashant.fitnessapp.network.RetrofitClient
 import com.google.gson.JsonObject
@@ -30,10 +27,9 @@ class ExerciseViewModel : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: LiveData<List<Exercises>> get() = _exercises
 
-
-
-
     var token: String? = null
+
+    var currentDay: MutableState<LocalDate> = mutableStateOf(LocalDate.now())
 
     fun fetchExercises(token: String, date: String) {
         this.token = token
@@ -60,16 +56,15 @@ class ExerciseViewModel : ViewModel() {
                             exercisesList.add(exercise)
                         }
                         _exercises.value = exercisesList
-                    } else {
                     }
-                } else {
                 }
             } catch (e: Exception) {
+                // Handle error
             }
         }
     }
 
-   fun addExercises(exerciseName: String, caloriesPerRep: Double, date: String) {
+    fun addExercises(exerciseName: String, caloriesPerRep: Double, date: String) {
         val token = this.token
         if (token == null) {
             return
@@ -86,9 +81,9 @@ class ExerciseViewModel : ViewModel() {
                 )
                 if (response.isSuccessful) {
                     fetchExercises(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
-                } else {
                 }
             } catch (e: Exception) {
+                // Handle error
             }
         }
     }
@@ -108,16 +103,17 @@ class ExerciseViewModel : ViewModel() {
                 )
                 if (response.isSuccessful) {
                     fetchExercises(token, SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
-                } else {
-
                 }
             } catch (e: Exception) {
-
+                // Handle error
             }
         }
     }
 
+    fun changeDay(days: Long) {
+        currentDay.value = currentDay.value.plusDays(days)
 
-
+    }
 }
+
 
