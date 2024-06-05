@@ -68,11 +68,13 @@ fun AddFoodScreen(
                 TextField(
                     value = foodName,
                     onValueChange = { foodName = it },
+                    singleLine = true,
                     label = { Text("Food Name", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = caloriesPerServing,
+                    singleLine = true,
                     onValueChange = { caloriesPerServing = it },
                     label = {
                         Text(
@@ -84,6 +86,7 @@ fun AddFoodScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = proteinPerServing,
+                    singleLine = true,
                     onValueChange = { proteinPerServing = it },
                     label = {
                         Text(
@@ -95,6 +98,7 @@ fun AddFoodScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = carbohydratesPerServing,
+                    singleLine = true,
                     onValueChange = { carbohydratesPerServing = it },
                     label = {
                         Text(
@@ -106,6 +110,7 @@ fun AddFoodScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = fatPerServing,
+                    singleLine = true,
                     onValueChange = { fatPerServing = it },
                     label = { Text("Fat per Serving", style = MaterialTheme.typography.bodyMedium) }
                 )

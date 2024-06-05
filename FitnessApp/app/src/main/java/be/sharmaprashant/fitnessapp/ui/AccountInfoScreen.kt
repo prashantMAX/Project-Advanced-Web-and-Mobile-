@@ -1,8 +1,14 @@
 package be.sharmaprashant.fitnessapp.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CoPresent
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Height
@@ -48,7 +54,6 @@ fun AccountInfoScreen(userProfile: UserProfile, navController: NavHostController
                 color = MaterialTheme.colorScheme.onPrimary,
             )
             Spacer(modifier = Modifier.height(16.dp))
-            ProfileItem(icon = Icons.Default.CoPresent, text = "UserID: ${userProfile.userID}")
             ProfileItem(icon = Icons.Default.Face, text = "Name: ${userProfile.name}")
             ProfileItem(icon = Icons.Default.FavoriteBorder, text = "Age: ${userProfile.age}")
             ProfileItem(icon = Icons.Default.MonitorWeight, text = "Weight: ${userProfile.weight} kg")

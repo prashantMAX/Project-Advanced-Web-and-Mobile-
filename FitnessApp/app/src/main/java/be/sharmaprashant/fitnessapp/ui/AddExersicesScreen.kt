@@ -74,12 +74,14 @@ fun AddExerciseScreen(
                 TextField(
                     value = exerciseName,
                     onValueChange = { exerciseName = it },
+                    singleLine = true,
                     label = { Text("Exercise Name", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = caloriesPerRep,
                     onValueChange = { caloriesPerRep = it },
+                    singleLine = true,
                     label = { Text("Calories per Rep", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(35.dp))
