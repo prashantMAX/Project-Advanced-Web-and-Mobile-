@@ -1,5 +1,12 @@
 package be.sharmaprashant.fitnessapp.viewModel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,12 +20,17 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 class ExerciseViewModel : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercises>>()
     val exercises: LiveData<List<Exercises>> get() = _exercises
+
+
 
 
     var token: String? = null

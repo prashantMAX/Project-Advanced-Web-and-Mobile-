@@ -47,7 +47,7 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>, exerciseviewModel: ExerciseViewModel = viewModel(), foodviewModel: FoodViewModel = viewModel()) {
+fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, food: List<Food>, exerciseViewModel: ExerciseViewModel = viewModel(), foodViewModel: FoodViewModel = viewModel()) {
     var currentDay by remember { mutableStateOf(LocalDate.now()) }
     val formattedDate = currentDay.format(DateTimeFormatter.ofPattern("EEEE-MM-dd"))
 
@@ -70,11 +70,12 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(formattedDate, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
-                Button(onClick = { }) {
+                Button(onClick = { /* Handle Rest Day logic if any */ }) {
                     Text("Rest day?", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
 
+            // Exercises Section
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -85,7 +86,7 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .padding(8.dp)
                 ) {
                     Text("Exercises", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
-                    Spacer(modifier = Modifier.weight(1f))  // Make space between text and button
+                    Spacer(modifier = Modifier.weight(1f))
                     Button(onClick = {
                         navController.navigate("addExerciseScreen/${currentDay.format(DateTimeFormatter.ISO_LOCAL_DATE)}")
                     }) {
@@ -101,14 +102,14 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .fillMaxWidth()
                 ) {
                     items(exercise) { exercise ->
-                        ExerciseItem(exercise = exercise,){
-                            exerciseviewModel.deleteExercise(exercise.exercise_id)
-
+                        ExerciseItem(exercise = exercise) {
+                            exerciseViewModel.deleteExercise(exercise.exercise_id)
                         }
                     }
                 }
             }
 
+            // Food Section
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -135,13 +136,14 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                         .fillMaxWidth()
                 ) {
                     items(food) { food ->
-                        FoodItem(food = food){
-                            foodviewModel.deleteFood(food.foodID)
+                        FoodItem(food = food) {
+                            foodViewModel.deleteFood(food.foodID)
                         }
                     }
                 }
             }
 
+            // Navigation Row for Previous and Next Day
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -151,11 +153,11 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                 Button(
                     onClick = {
                         currentDay = currentDay.minusDays(1)
-                        exerciseviewModel.token?.let {
-                            exerciseviewModel.fetchExercises(it, currentDay.toString())
+                        exerciseViewModel.token?.let {
+                            exerciseViewModel.fetchExercises(it, currentDay.toString())
                         }
-                        foodviewModel.token?.let {
-                            foodviewModel.fetchFood(it, currentDay.toString())
+                        foodViewModel.token?.let {
+                            foodViewModel.fetchFood(it, currentDay.toString())
                         }
                     }
                 ) {
@@ -165,11 +167,11 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
                 Button(
                     onClick = {
                         currentDay = currentDay.plusDays(1)
-                        exerciseviewModel.token?.let {
-                            exerciseviewModel.fetchExercises(it, currentDay.toString())
+                        exerciseViewModel.token?.let {
+                            exerciseViewModel.fetchExercises(it, currentDay.toString())
                         }
-                        foodviewModel.token?.let {
-                            foodviewModel.fetchFood(it, currentDay.toString())
+                        foodViewModel.token?.let {
+                            foodViewModel.fetchFood(it, currentDay.toString())
                         }
                     }
                 ) {
@@ -179,7 +181,6 @@ fun ExerciseScreen(navController: NavHostController, exercise: List<Exercises>, 
         }
     }
 }
-
 
 @Composable
 fun ExerciseItem(exercise: Exercises, onDeleteClicked: () -> Unit) {
@@ -215,7 +216,6 @@ fun ExerciseItem(exercise: Exercises, onDeleteClicked: () -> Unit) {
         )
     }
 }
-
 
 @Composable
 fun FoodItem(food: Food, onDeleteClicked: () -> Unit) {
@@ -267,7 +267,6 @@ fun FoodItem(food: Food, onDeleteClicked: () -> Unit) {
     }
 }
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
@@ -275,12 +274,12 @@ fun ExerciseScreenPreview() {
     val navController = rememberNavController()
     val sampleExercises = listOf(
         Exercises(1, 1, "Push Up", 0.5, 2),
-        Exercises(1, 2, "Sit Up", 0.4,2),
-        Exercises(1, 3, "Squat", 0.6,2)
+        Exercises(1, 2, "Sit Up", 0.4, 2),
+        Exercises(1, 3, "Squat", 0.6, 2)
     )
     val dummyFoods = listOf(
-        Food(userId=1, foodID = 2, foodName = "Apple", caloriesPerServing = 52.0, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2),
-        Food(userId=3, foodID = 4, foodName = "Apple", caloriesPerServing = 52.0, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2)
+        Food(userId = 1, foodID = 2, foodName = "Apple", caloriesPerServing = 52.0, proteinPerServing = 0.3, carbohydratesPerServing = 13.8, fatPerServing = 0.4, date = 2),
+        Food(userId = 3, foodID = 4, foodName = "Banana", caloriesPerServing = 89.0, proteinPerServing = 1.1, carbohydratesPerServing = 22.8, fatPerServing = 0.3, date = 2)
     )
     ExerciseScreen(navController = navController, exercise = sampleExercises, food = dummyFoods)
 }
