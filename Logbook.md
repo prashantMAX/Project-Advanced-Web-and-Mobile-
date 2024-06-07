@@ -14,6 +14,7 @@
 -  Moest werken met JWT
 ### Prashant & Gaurav
 -  Wireframe gecreeërt
+-  file:///C:/Users/ManojM/Downloads/advanced_web_wireframe.pdf 
 -  PHP-scripts (Login, JWT token)
 ### Manoj 
 - Database setup
