@@ -71,5 +71,5 @@
 ## Week 5: 03/06
 ### Afronding:
 - Gefocust op code opschonen en bugfixes (bijv. lijst ververst niet goed na verwijderen).
-### Documentatie voorbereid.
-### PowerPoint presentatie met een video demonstratie gemaakt.
+- Documentatie voorbereid.
+- PowerPoint presentatie met een video demonstratie gemaakt.
