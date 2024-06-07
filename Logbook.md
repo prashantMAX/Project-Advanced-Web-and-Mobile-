@@ -22,5 +22,52 @@
 - ViewModel:
    * Login  en accountbeheren implementeren
 - Composable:
-  *
+   * Login en accountpagina
 - Retrofit:
+   *  API's voor login en accountInformatie
+### Gaurav
+-  Loginpagina en benodigde Retrofit-code gemaakt
+-  Gewerkt aan JWT token
+### Manoj 
+- Verder aan PHP scripts gewerkt (addExercise, addNutrition)
+### Prashant
+- Gefocust op retrofit en viewmodel voor userinfo pagina
+
+## Week 3: 20/05
+### Roadmap:
+- Taken van week 1 voltooid
+- JWT token implementatie afgerond door Gaurav & Prashant
+### Afwijking van roadmap:
+- Gewekt aan Workoutplanning in plaats van Voedingsmodule.
+  * Alle oefeningen ophalen
+  * Oefeningen toevoegen (volgens datum)
+### Prashant 
+- Retrofit ontwikkeld voor het ophalen van oefeningen
+- ViewModel voor oefeningen gemaakt
+### Manoj
+- Composable gemaakt voor workoutplanning, homepage en voedselplanning (lijst en toevoegen van oefeningen
+### Gaurav
+- PHP-scripts bijgewerkt om te werken met JWT.
+
+## Week 4: 27/05
+### Afwerking
+- Workoutplanning functies af gewerkt
+### Gaurav:
+- Alle bestanden georganiseerd (ViewModel, Composable, Retrofit).
+- viewModel voor getNutrition ontwikkeld.
+- Overzichtspagina toegevoegd (dagelijks overzicht).
+
+### Prashant
+- Samengewerkt met Manoj aan addExercise en addNutrition (ViewModel en Retrofit).
+- Elkaar geholpen wanneer iemand vastzat.
+- Verwijderfunctionaliteit toegevoegd voor oefeningen en voeding.
+- Overzichtspagina toegevoegd (dagelijks overzicht).
+
+### Manoj:
+- Samengewerkt met Manoj aan addExercise en addNutrition (ViewModel en Retrofit).
+- Gewerkt aan design (Material Design, navigatieknoppen, topbar voor alle pagina's).
+## Week 5: 03/06
+### Afronding:
+- Gefocust op code opschonen en bugfixes (bijv. lijst ververst niet goed na verwijderen).
+### Documentatie voorbereid.
+### PowerPoint presentatie met een video demonstratie gemaakt.
