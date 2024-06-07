@@ -10,6 +10,7 @@
 -  Moest roadmap maken
 -    ![image](https://github.com/prashantMAX/Project-Advanced-Web-and-Mobile-/assets/113712069/bfc70403-abcb-4243-8984-34ec3fb4337b)
 -  Trello opgestelt
+-  ![image](https://github.com/prashantMAX/Project-Advanced-Web-and-Mobile-/assets/113712069/6bc5989c-e298-4569-b7bb-47a1a50e7109)
 -  Moest werken met JWT
 ### Prashant & Gaurav
 -  Wireframe gecreeërt
