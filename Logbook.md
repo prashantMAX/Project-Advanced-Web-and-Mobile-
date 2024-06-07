@@ -13,8 +13,7 @@
 -  ![image](https://github.com/prashantMAX/Project-Advanced-Web-and-Mobile-/assets/113712069/6bc5989c-e298-4569-b7bb-47a1a50e7109)
 -  Moest werken met JWT
 ### Prashant & Gaurav
--  Wireframe gecreeërt
--  [advanced_web_wireframe.pdf](https://github.com/user-attachments/files/15744886/advanced_web_wireframe.pdf)
+-  Wireframe gecreeërt [advanced_web_wireframe.pdf](https://github.com/user-attachments/files/15744886/advanced_web_wireframe.pdf)
 -  PHP-scripts (Login, JWT token)
 ### Manoj 
 - Database setup
