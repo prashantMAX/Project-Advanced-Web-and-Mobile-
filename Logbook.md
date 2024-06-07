@@ -6,6 +6,8 @@
 - Besloten om aan een fitness-app te werken
 - Git-repository en branches opgezet
 - Project folder aangemaakt in Android Studio
+  ![image](https://github.com/prashantMAX/Project-Advanced-Web-and-Mobile-/assets/113712069/bfc70403-abcb-4243-8984-34ec3fb4337b)
+
 ### Veragadering met Daniyar:
 -  Moest roadmap maken
 -  Trello opgestelt
