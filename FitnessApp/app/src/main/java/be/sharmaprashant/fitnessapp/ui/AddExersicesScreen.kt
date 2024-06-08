@@ -3,6 +3,7 @@ package be.sharmaprashant.fitnessapp.ui
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -83,40 +84,48 @@ fun AddExerciseScreen(
                     label = { Text("Calories per Rep", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(35.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Button(onClick = {
-                        navController.navigate("exercise")
-                    }) {
-                        Text("Back", style = MaterialTheme.typography.bodyMedium)
-                    }
-                    Button(onClick = {
-                        val caloriesPerRepDouble = caloriesPerRep.toDoubleOrNull()
-                        if (caloriesPerRepDouble != null) {
-                            viewModel.addExercises(
-                                exerciseName,
-                                caloriesPerRepDouble,
-                                exerciseDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
-                            )
+                Column {
 
-                            onExerciseAdded()
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Button(onClick = {
                             navController.navigate("exercise")
-                        } else {
-                            errorMessage = "Please enter a valid number for calories per rep"
+                        }) {
+                            Text("Back", style = MaterialTheme.typography.bodyMedium)
                         }
-                    }) {
-                        Text("Add Exercise", style = MaterialTheme.typography.bodyMedium)
+                        Button(onClick = {
+                            val caloriesPerRepDouble = caloriesPerRep.toDoubleOrNull()
+                            if (caloriesPerRepDouble != null) {
+                                viewModel.addExercises(
+                                    exerciseName,
+                                    caloriesPerRepDouble,
+                                    exerciseDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+                                )
+
+                                onExerciseAdded()
+                                navController.navigate("exercise")
+                            } else {
+                                errorMessage = "Please enter a valid number for calories per rep"
+                            }
+                        }) {
+                            Text("Add Exercise", style = MaterialTheme.typography.bodyMedium)
+                        }
                     }
                     errorMessage?.let {
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = it, color = MaterialTheme.colorScheme.error)
+                        Text(
+                            text = it,
+                            Modifier.background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)),
+                            color = MaterialTheme.colorScheme.error
+                        )
+
                     }
                 }
-
             }
         }
     }

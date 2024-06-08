@@ -3,10 +3,15 @@ package be.sharmaprashant.fitnessapp.ui
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +49,15 @@ fun ShowDatePicker(currentDate: LocalDate, onDateSelected: (LocalDate) -> Unit) 
         modifier = Modifier.fillMaxWidth().padding(25.dp),
         shape = RoundedCornerShape(2.dp)
     ) {
-        Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}", style = MaterialTheme.typography.bodyLarge)
+
+            Icon(
+                imageVector = Icons.Filled.DateRange,
+                contentDescription = ""
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Select Date: ${currentDate.format(DateTimeFormatter.ISO_LOCAL_DATE)}", style = MaterialTheme.typography.bodyLarge)
+
     }
+
+
 }

@@ -80,9 +80,7 @@ fun ExerciseScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(formattedDate, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
-                Button(onClick = { /* Handle Rest Day logic if any */ }) {
-                    Text("Rest day?", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimary)
-                }
+
             }
 
             // Exercises Section

@@ -110,45 +110,50 @@ fun AddFoodScreen(
                     label = { Text("Fat per Serving", style = MaterialTheme.typography.bodyMedium) }
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Button(onClick = {
-                        navController.navigate("exercise")
-                    }) {
-                        Text("Back", style = MaterialTheme.typography.bodyMedium)
-                    }
-                    Button(onClick = {
-                        val calories = caloriesPerServing.toDoubleOrNull()
-                        val protein = proteinPerServing.toDoubleOrNull()
-                        val carbs = carbohydratesPerServing.toDoubleOrNull()
-                        val fat = fatPerServing.toDoubleOrNull()
-                        if (calories != null) {
-                            if (protein != null) {
-                                if (carbs != null) {
-                                    if (fat != null) {
-                                        viewModel.addFood(
-                                            foodName,
-                                            calories,
-                                            protein,
-                                            carbs,
-                                            fat,
-                                            foodDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
-                                        )
+
+                Column {
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Button(onClick = {
+                            navController.navigate("exercise")
+                        }) {
+                            Text("Back", style = MaterialTheme.typography.bodyMedium)
+                        }
+                        Button(onClick = {
+                            val calories = caloriesPerServing.toDoubleOrNull()
+                            val protein = proteinPerServing.toDoubleOrNull()
+                            val carbs = carbohydratesPerServing.toDoubleOrNull()
+                            val fat = fatPerServing.toDoubleOrNull()
+                            if (calories != null) {
+                                if (protein != null) {
+                                    if (carbs != null) {
+                                        if (fat != null) {
+                                            viewModel.addFood(
+                                                foodName,
+                                                calories,
+                                                protein,
+                                                carbs,
+                                                fat,
+                                                foodDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+                                            )
+                                        }
                                     }
                                 }
+                                onFoodAdded()
+                                navController.navigate("exercise")
+                            } else {
+                                errorMessage =
+                                    "Please ensure all nutritional values are entered correctly"
                             }
-                            onFoodAdded()
-                            navController.navigate("exercise")
-                        } else {
-                            errorMessage =
-                                "Please ensure all nutritional values are entered correctly"
+                        }) {
+                            Text("Add Food", style = MaterialTheme.typography.bodyMedium)
                         }
-                    }) {
-                        Text("Add Food", style = MaterialTheme.typography.bodyMedium)
+
                     }
                     errorMessage?.let {
                         Spacer(modifier = Modifier.height(8.dp))
