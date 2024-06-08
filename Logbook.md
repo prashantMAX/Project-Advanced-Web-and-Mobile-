@@ -66,7 +66,7 @@
 - Overzichtspagina toegevoegd (dagelijks overzicht).
 
 ### Manoj:
-- Samengewerkt met Manoj aan addExercise en addNutrition (ViewModel en Retrofit).
+- Samengewerkt met Prashant aan addExercise en addNutrition (ViewModel en Retrofit).
 - Gewerkt aan design (Material Design, navigatieknoppen, topbar voor alle pagina's).
 ## Week 5: 03/06
 ### Afronding:
